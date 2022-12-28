@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Inter:wght@200;300;400&family=Merienda:wght@300;400;900&display=swap');
+/*
+=============== 
+Hero
+===============
+*/
+
+.hero {
+    height: 55vh;
+    position: relative;
+    background: url('../../assets/img/food-4.jpg') center/cover no-repeat !important;
+    border-radius: 0.25rem;
+    margin-bottom: .5rem;
+  }
+  .hero-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius:0.25rem;
+  }
+  .hero-text {
+    color: white;
+    text-align: center;
+  }
+  .hero-text h4{
+    font-family: 'Merienda', cursive;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    .hero-text h1 {
+      font-size: 3.5rem;
+      margin-bottom: 0;
+      font-family: 'Abril Fatface', cursive;
+      text-transform: capitalize;
+    }
+  }
+
+  /*
+=============== 
+Recipe Template
+===============
+*/
+
+.recipe-hero {
+    width: 100%;
+    gap: 5rem;
+  }
+  .recipe-icons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    text-align: center;
+    margin-top:10px ;
+  }
+  .recipe-icons i {
+    font-size: 1.5rem;
+  }
+  .recipe-icons h5,
+  .recipe-icons p {
+    font-size: 0.85em;
+  }
+  .recipe-tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 0.7em;
+    font-weight: 600;
+  }
+  .recipe-tags a {
+    padding: 0.05rem 0.5rem;
+    text-transform: capitalize;
+  }
+  .recipe-icons h5{
+    font-family: 'Merienda', cursive;
+
+  }
+  @media screen and (min-width: 992px) {
+    .recipe-hero {
+      grid-template-columns: 5fr 5fr;
+      align-items: center;
+    }
+  }
+  .recipe-content {
+    padding: 3rem ;
+    display: grid;
+    gap: 2rem 5rem;
+  }
+  @media screen and (min-width: 992px) {
+    .recipe-content {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+  .ingredients p,.outils p  {
+    font-family: 'Merienda', cursive;
+    letter-spacing: 1px;
+  }
+  .single-instruction >p {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: .4px;
+    font-size: 1.2rem;
+  }
+  .single-instruction header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    padding-top: 1.5rem;
+  }
+  .left-heading{
+    font-family: 'Abril Fatface', cursive;
+    text-transform: uppercase;
+    padding-bottom: 16px;
+  }
+  .single-instruction header p {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Abril Fatface', cursive;
+  }
+  .single-instruction > p {
+    color: var(--grey-700);
+  }
+  
+  .single-instruction header div {
+    height: 2px;
+    background: var(--grey-300);
+  }
+
+  .second-column {
+    display: grid;
+    row-gap: 2rem;
+  }
+  
+  .single-ingredient {
+    border-bottom: 2px solid var(--grey-300);
+    padding-bottom: 0.75rem;
+    color: var(--grey-700);
+  }
+  .single-tool {
+    border-bottom: 2px solid var(--grey-300);
+    padding-bottom: 0.75rem;
+    color: var(--primary-500);
+    text-transform: capitalize;
+  }
+  

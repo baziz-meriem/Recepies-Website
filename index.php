@@ -1,6 +1,14 @@
 <?php
-require_once "./Views/User/Accueil.php";
-$view=new UserView();
+require_once './User/Accueil.php';
+require_once './User/Recettes.php';
+require_once './User/UneRecette.php';
+require_once './User/Nutrition.php';
+
+
+///$view=new Accueil();
+///$view = new Recettes();
+//$view = new UneRecette();
+$view = new Nutrition();
 $view->afficher();
-include ($_SERVER['DOCUMENT_ROOT'].'./WebProject/Views/components/footer.inc.php');
+
 ?>
