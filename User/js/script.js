@@ -1,53 +1,53 @@
 let products = {
   data: [
-    {
+    {//------------------------------------------
       productName: "Tomate",
       category: "Fruits",
       Calories: "30",
-      image: "../../assets/img/food-1.jpg",
+      image: "assets/img/food-1.jpg",
     },
     
-    {
+    {//----------------------------------------
       productName: "Pomme de terre",
       category: "Legumes",
       Calories: "49",
-      image: "../../assets/img/food-2.jpg",
+      image: "assets/img/food-2.jpg",
     },
-    {
+    {//--------------------------------------
       productName: "Oignon",
       category: "Viande",
       Calories: "99",
-      image: "../../assets/img/food-1.jpg",
+      image: "assets/img/food-1.jpg",
     },
-    {
+    {//---------------------------------------
       productName: "ail",
       category: "Fruits",
       Calories: "29",
-      image: "../../assets/img/food-3.jpg",
+      image: "assets/img/food-3.jpg",
     },
     {
       productName: "Concombre",
-      category: "produit létier",
+      category: "Viande",
       Calories: "129",
-      image: "../../assets/img/food-3.jpg",
+      image: "assets/img/food-3.jpg",
     },
     {
       productName: "banane",
       category: "Legumes",
       Calories: "89",
-      image: "../../assets/img/food-4.jpg",
+      image: "assets/img/food-4.jpg",
     },
     {
       productName: "ananas",
-      category: "produit létier",
+      category: "légumineuses",
       Calories: "189",
-      image: "../../assets/img/food-5.jpg",
+      image: "assets/img/food-5.jpg",
     },
     {
       productName: "orange",
       category: "Legumes",
       Calories: "490",
-      image: "../../assets/img/img-11.jpg",
+      image: "assets/img/img-11.jpg",
     },
   ],
 };

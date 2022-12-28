@@ -14,9 +14,9 @@ class Nutrition extends COMPOSANTS {
     <link rel="stylesheet" href="User/styles/style.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
+   
   </head>
   <body>
-  <script src="User/js/script.js"></script>
   <?php
 }
 
@@ -31,12 +31,12 @@ public function Intro(){?>
 <?php
 }
 public function mainSection(){?>
-      <div class="wrapper">
+<div class="wrapper">
       <div id="search-container">
         <input
           type="search"
           id="search-input"
-          placeholder="CHercher le nom de l'aliment içi"
+          placeholder="Chercher le nom de l'aliment içi"
         />
         <button id="search">chercher</button>
       </div>
@@ -48,8 +48,8 @@ public function mainSection(){?>
         <button class="button-value" onclick="filterProduct('Legumes')">
           Legumes
         </button>
-        <button class="button-value" onclick="filterProduct('produit létier')">
-          produit létier
+        <button class="button-value" onclick="filterProduct('légumineuses')">
+          légumineuses
         </button>
         <button class="button-value" onclick="filterProduct('Viande')">
           Viande
@@ -57,7 +57,7 @@ public function mainSection(){?>
       </div>
       <div id="products"></div>
     </div>
-    
+    <script><?php require_once("js/script.js"); ?></script>
   <?php
   }
 
