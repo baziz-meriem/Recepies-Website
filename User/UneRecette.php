@@ -1,5 +1,5 @@
 <?php
-require_once "User/COMPOSANTS.php";
+require_once "COMPOSANTS.php";
 class UneRecette extends COMPOSANTS {
   public function header(){?>
 <!DOCTYPE html>
@@ -10,26 +10,23 @@ class UneRecette extends COMPOSANTS {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="bootstrap-4.1.3-dist/css/bootstrap.min.css">
     <title>Catégorie recette</title>
-    <link rel="stylesheet" href="User/styles/recettes.css" />
-    <link rel="stylesheet" href="User/styles/style.css" />
-    <link rel="stylesheet" href="User/styles/une-recette.css" />
-
+    <link rel="stylesheet" href="./User/styles/recettes.css" />
+    <link rel="stylesheet" href="./User/styles/style.css" />
+    <link rel="stylesheet" href="./User/styles/une-recette.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
   </head>
   <body>
-    <script src="User/js/jquery-3.3.1.min.js"></script>
+    <script src="../User/js/jquery-3.3.1.min.js"></script>
         <script src="bootstrap-4.1.3-dist/js/bootstrap.min.js"></script>
         <?php
 }
-
-
-public function Intro(){?>
+public function Intro($recette){?>
     <header class="hero">
         <div class="hero-container">
           <div class="hero-text">
-            <h1>Brownies</h1>
-            <h4>Temps de preparation,temps de cuisson et temps total, notation , saison , nombre de calories</h4>
+            <h1><?php echo $recette['titre']; ?></h1>
+            <h4><?php echo $recette['description']; ?></h4>
           </div>
         </div>
       </header>
@@ -84,7 +81,6 @@ public function mainSection(){?>
 
           <!-- end of single instruction -->
         </article>
-
         <article class="second-column">
           <div class="ingredients">
             <h4 class="left-heading">ingredients</h4>
@@ -105,36 +101,36 @@ public function mainSection(){?>
       </section>
   <?php
   }
-  public function iconsBar(){?>
-      <section class="recipe-hero">
+  public function iconsBar($recette){?>
+<section class="recipe-hero">
 
 <div class="recipe-icons">
   <article>
     <i class="fas fa-clock"></i>
     <h5>Temps Total</h5>
-    <p>15min</p>
+    <p><?php echo $recette['temps_total']; ?></p>
   </article>
   <article>
       <i class="far fa-clock"></i>
       <h5 >Temps Cuisson</h5>
-      <p>15min</p>
+      <p><?php echo $recette['temps_cuisson']; ?></p>
     </article>
  
       <article>
           <i class="far fa-clock"></i>
           <h5>Temps Peparation</h5>
-          <p>15min</p>
+          <p><?php echo $recette['temps_preparation']; ?></p>
         </article>
 
   <article>
     <i class="far fa-clock"></i>
     <h5>Temps Repos</h5>
-    <p>hiver</p>
+    <p><?php echo $recette['temps_repos']; ?></p>
   </article>
   <article>
       <i class="fas fa-bicycle"></i>
       <h5>Nombre Calories</h5>
-      <p>150 cal</p>
+      <p><?php echo $recette['calories']; ?></p>
     </article>
 </div>
 </section>
@@ -142,18 +138,17 @@ public function mainSection(){?>
   }
 
 
-    public function afficher(){
+    public function afficher($recette){
         $this->afficherNavBar();
       $this->header();
-      $this->Intro();
+      $this->Intro($recette);
    
-      $this->iconsBar();
+      $this->iconsBar($recette);
       $this->mainSection();
       $this->afficherFooter();
     }
 
 }
-
 
 ?>
 

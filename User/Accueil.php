@@ -1,5 +1,6 @@
 <?php
-require_once "User/COMPOSANTS.php";
+require_once "COMPOSANTS.php";
+
 class Accueil extends COMPOSANTS {
   public function header(){?>
 <!DOCTYPE html>
@@ -55,6 +56,7 @@ public function Diaporama(){?>
 				<h3 class="summary">Ne manquer aucune nouvelle concernant le monde de cuisine soi en algérie ou bien au monde entier tous est disponible en un seul click</h3>
 				<button type="button" class="btn btn-outline-light btn-lg " href="#"> Voir News</button>
 			</div>
+			
 		</div>
 		<!----------Slide3------------>
 		<div class="carousel-item" style="background-image:url(assets/img/dishes-1.jpg)">
@@ -90,6 +92,7 @@ public function Diaporama(){?>
         $this->afficherCardPlat();
         $this->afficherCardEntree();
         $this->afficherCardDessert();
+        $this->afficherCardBoisson();
         $this->afficherFooter();
     }
 

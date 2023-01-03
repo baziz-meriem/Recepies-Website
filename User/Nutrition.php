@@ -1,6 +1,7 @@
 <?php
-require_once "User/COMPOSANTS.php";
+require_once "COMPOSANTS.php";
 class Nutrition extends COMPOSANTS {
+  
   public function header(){?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,10 +9,10 @@ class Nutrition extends COMPOSANTS {
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="bootstrap-4.1.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./bootstrap-4.1.3-dist/css/bootstrap.min.css">
     <title>Catégorie recette</title>
-    <link rel="stylesheet" href="User/styles/nutrition.css" />
-    <link rel="stylesheet" href="User/styles/style.css" />
+    <link rel="stylesheet" href="./User/styles/nutrition.css" />
+    <link rel="stylesheet" href="./User/styles/style.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
    
@@ -23,7 +24,7 @@ class Nutrition extends COMPOSANTS {
 
 public function Intro(){?>
     <div >
-        <img class="bg-transparent position-absolute" style="z-index:999 ;width:200px; margin-bottom: 30px;" src="assets/img/logo.png">
+        <img class="bg-transparent position-absolute" style="z-index:999 ;width:200px; margin-bottom: 30px;" src="./assets/img/logo.png">
 
         <h1 class="heading">News</h1>
        <center><p class="description" style="color:#51724e">Dans cette page vous pouver voir toute les recettes disponible et filtrer selon vos choix tout est disponibe en un seul click</p></center> 
@@ -66,9 +67,11 @@ public function mainSection(){?>
       $this->header();
       $this->Intro();
       $this->afficherNavBar();
+      
       $this->mainSection();
       $this->afficherFooter();
     }
+  
 
 }
 

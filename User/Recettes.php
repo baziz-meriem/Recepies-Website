@@ -1,5 +1,6 @@
 <?php
-require_once "User/COMPOSANTS.php";
+
+require_once "COMPOSANTS.php";
 class Recettes extends COMPOSANTS {
   public function header(){?>
 <!DOCTYPE html>
@@ -10,13 +11,13 @@ class Recettes extends COMPOSANTS {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="bootstrap-4.1.3-dist/css/bootstrap.min.css">
     <title>Catégorie recette</title>
-    <link rel="stylesheet" href="User/styles/recettes.css" />
-    <link rel="stylesheet" href="User/styles/style.css" />
+    <link rel="stylesheet" href="./User/styles/recettes.css" />
+    <link rel="stylesheet" href="./User/styles/style.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
   </head>
   <body>
-    <script src="User/js/jquery-3.3.1.min.js"></script>
+    <script src="./User/js/jquery-3.3.1.min.js"></script>
         <script src="bootstrap-4.1.3-dist/js/bootstrap.min.js"></script>
         <?php
 }
@@ -24,7 +25,7 @@ class Recettes extends COMPOSANTS {
 
 public function Intro(){?>
     <div >
-        <img class="bg-transparent position-absolute" style="z-index:999 ;margin-top:30px " src="assets/img/logo.png">
+        <img class="bg-transparent position-absolute" style="z-index:999 ;margin-top:30px " src="./assets/img/logo.png">
 
         <h1 class="heading"> Recettes divers</h1>
        <center><p class="description" style="color:#51724e">Dans cette page vous pouver voir toute les recettes disponible et filtrer selon vos choix tout est disponibe en un seul click</p></center> 
