@@ -24,7 +24,7 @@ class Recettes_model {
     public function getRecettes(){
         $auth = new AUTH_model();
         $conn=$auth->connectDB($this->host,$this->name,$this->password,$this->database);
-        $sql = "SELECT * FROM `recettes`  ORDER BY ID ASC";
+        $sql = "SELECT * FROM `recettes`  ORDER BY temps_preparation ASC, calories ASC";
         $q=$auth-> query($conn,$sql);
         $result= $q->fetchAll(PDO::FETCH_ASSOC);
         

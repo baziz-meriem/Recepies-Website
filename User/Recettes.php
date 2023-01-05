@@ -16,11 +16,13 @@ class Recettes extends COMPOSANTS {
     <title>Recettes</title>
     <link rel="stylesheet" href="./User/styles/recettes.css" />
     <link rel="stylesheet" href="./User/styles/style.css" />
+    <link href = "./User/styles/jquery-ui.css" rel = "stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
   </head>
   <body>
     <script src="./User/js/jquery-3.3.1.min.js"></script>
+    <script src="./User/js/jquery-ui.js"></script>
         <script src="bootstrap-4.1.3-dist/js/bootstrap.min.js"></script>
         <?php
 }
@@ -96,6 +98,32 @@ public function filterSection(){?>
               </li>
               <?php  } ?>
             </ul>
+            <h5 class="select-text"  >Selectionner Temps de Preparation </h5>
+            <ul class="list-group" >
+              <li class="list-group-item">
+              <div class="item">
+					    <input type="hidden" id="hidden_minimum_prep" value="0" />
+                    <input type="hidden" id="hidden_maximum_prep" value="65000" />
+                    <p id="price_show">10 - 500</p>
+                    <div id="price_range"></div>
+
+                </div>
+              </li>	
+
+             
+            </ul>
+            <h5 class="select-text"  >Selectionner Temps de Cuisson </h5>
+            <ul class="list-group" >
+              <li class="list-group-item">
+              <div class="item">
+					    <input type="hidden" id="hidden_minimum_cuiss" value="0" />
+                    <input type="hidden" id="hidden_maximum_cuiss" value="65000" />
+                    <p id="price_show_cuiss">10 - 500</p>
+                    <div id="price_range_cuiss"></div>
+
+                </div>
+              </li>	
+            </ul>
           </div>
         </div>
         <!-- end of tag container -->
@@ -112,7 +140,9 @@ public function filterSection(){?>
           <a href="single-recipe.html" class="recipe">
             <?php echo '<img src="assets/img/'. $recette['image'] .'"  class="img recipe-img">';?>
             <h5><?php echo $recette['titre']?></h5>
-            <p>Prep : <?php echo $recette['temps_preparation'].'min'?> | <?php echo $recette['calories'].'Cal'?></p>
+            <p>Prep : <?php echo $recette['temps_preparation'].'min'?> | <?php echo $recette['calories'].'Cal'?><br/><br/>
+            Cuiss :  <?php echo $recette['temps_cuisson'].'min'?>| Tot :  <?php echo $recette['temps_total'].'min'?>
+          </p>
           </a>
         <?php  } ?>
         </div>
@@ -123,21 +153,30 @@ public function filterSection(){?>
         
         //target all checkbox click activities product-check as a common selector
         $('.product_check').click(function(){
+          filter_data();
+        });
+        function filter_data(){
           var action = 'data';
           var saison = get_filter_text('saison');
           var categorie = get_filter_text('categorie');
           var notation = get_filter_text('notation');
+          var minimum_prep = $('#hidden_minimum_prep').val();
+          var maximum_prep = $('#hidden_maximum_prep').val();
+
+          var minimum_cuiss = $('#hidden_minimum_cuiss').val();
+          var maximum_cuiss = $('#hidden_maximum_cuiss').val();
+
 
           $.ajax({
             url:'User/action.php',
             method:'POST',
-            data:{action:action,saison:saison,notation:notation,categorie:categorie},
+            data:{action:action,saison:saison,notation:notation,categorie:categorie,minimum_prep:minimum_prep, maximum_prep:maximum_prep,minimum_cuiss:minimum_cuiss, maximum_cuiss:maximum_cuiss,},
             success:function(response){//first show the response in the div with id=result
               $("#result").html(response);
              
             }
           })
-        });
+        }
         
         function get_filter_text(text_selector){
           var filterData = [];
@@ -148,6 +187,34 @@ public function filterSection(){?>
 
           return filterData; 
         }
+        $('#price_range').slider({
+        range:true,
+        min:10,
+        max:500,
+        values:[10, 500],
+        step:10,
+        stop:function(event, ui)
+        {
+            $('#price_show').html(ui.values[0] + ' - ' + ui.values[1]);//afficher la valeur choisi
+            $('#hidden_minimum_prep').val(ui.values[0]);//set the min val
+            $('#hidden_maximum_prep').val(ui.values[1]);
+            filter_data();
+        }
+    });
+    $('#price_range_cuiss').slider({
+        range:true,
+        min:10,
+        max:500,
+        values:[10, 500],
+        step:10,
+        stop:function(event, ui)
+        {
+            $('#price_show_cuiss').html(ui.values[0] + ' - ' + ui.values[1]);
+            $('#hidden_minimum_cuiss').val(ui.values[0]);
+            $('#hidden_maximum_cuiss').val(ui.values[1]);
+            filter_data();
+        }
+    });
       })
       </script>
   <?php

@@ -18,6 +18,18 @@ require_once '../Authentication/AUTH_model.php';
                 $notation = implode("','", $_POST['notation']); 
                 $sql .="AND notation IN('".$notation."')";
             }
+            if(isset($_POST["minimum_prep"], $_POST["maximum_prep"]) && !empty($_POST["minimum_prep"]) && !empty($_POST["maximum_prep"]))
+            {
+                $sql .= "
+                 AND temps_preparation BETWEEN '".$_POST["minimum_prep"]."' AND '".$_POST["maximum_prep"]."'
+                ";
+            }
+            if(isset($_POST["minimum_cuiss"], $_POST["maximum_cuiss"]) && !empty($_POST["minimum_cuiss"]) && !empty($_POST["maximum_cuiss"]))
+            {
+                $sql .= "
+                 AND temps_cuisson BETWEEN '".$_POST["minimum_cuiss"]."' AND '".$_POST["maximum_cuiss"]."'
+                ";
+            }
 
             $result = $auth->query($conn,$sql);
             $output='';
@@ -31,7 +43,9 @@ require_once '../Authentication/AUTH_model.php';
                     <a href="single-recipe.html" class="recipe">
                      <img class="img recipe-img" src="assets/img/'. $recette['image'] .'" >
                     <h5>'.$recette['titre'].'</h5>
-                    <p>Prep : '. $recette['temps_preparation'].'|  '.$recette['calories'].'</p>
+                    <p>Prep : '. $recette['temps_preparation'].'| Cal :   '.$recette['calories'].'<br/>
+                    Cuiss : '. $recette['temps_cuisson'].'| Tot :  '.$recette['temps_total'].'
+                    </p>
                   </a>';
                 }
             }
