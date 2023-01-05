@@ -1,12 +1,10 @@
 <?php
-
 require_once 'controllers/Accueil_controller.php';
 require_once 'controllers/UneRecette_controller.php';
 
 class COMPOSANTS {
-
-    public function navBar(){?>
-        <!------------------NAvbar---------------->
+    public function navBar(){ ?>
+<!------------------------------------NAvbar------------------------------------------------------>
         <div class="nav sticky-nav">
             <div class="nav-btn">
               <label for="nav-check">
@@ -16,21 +14,20 @@ class COMPOSANTS {
               </label>
             </div>
             <div class="nav-links">
-                <ul  >
-                      <li><a href="#" >Accueil</a></li>
-                      <li><a href="./index.php?page=recettes" target="_blank">Recettes</a></li>
-                      <li><a href="#" target="_blank">News</a></li>
-                      <li><a href="#" target="_blank">Healthy</a></li>
-                      <li><a href="#" target="_blank">Saison</a></li>
-                      <li><a href="#" target="_blank">Fete</a></li>
-                      <li><a href="./index.php?page=nutrition"  target="_blank">Nutrition</a></li>
-                      
-                      <li><a href="#footer" >Contact</a></li>
-                      <a href="./index.php?page=connection"><button id="commancer" class="btn btn-outline-light btn-ms  "> Commancer</button></a>
-            </ul>     
+               <ul>
+                  <li><a href="#" >Accueil</a></li>
+                  <li><a href="./index.php?page=recettes" target="_blank">Recettes</a></li>
+                  <li><a href="./index.php?page=news" target="_blank">News</a></li>
+                  <li><a href="#" target="_blank">Healthy</a></li>
+                  <li><a href="#" target="_blank">Saison</a></li>
+                  <li><a href="#" target="_blank">Fete</a></li>
+                  <li><a href="./index.php?page=nutrition"  target="_blank">Nutrition</a></li>
+                  <li><a href="#footer" >Contact</a></li>
+                  <a href="./index.php?page=connection"><button id="commancer" class="btn btn-outline-light btn-ms  "> Commancer</button></a>
+               </ul>     
             </div>
           </div>
-            <!--------Social Media-------------->
+<!-----------------------------Social Media------------------------------------------------------>
           <nav class="social">
             <ul>
               <li><a href="https://twitter.com">Twitter <i class="fab fa-twitter"></i></a></li>
@@ -55,7 +52,7 @@ class COMPOSANTS {
                     <?php
                         $controller = new Accueil_controller();
                         $result = $controller->getCards($catégorie);
-                      //--------- LOOP TILL END OF DATA
+                      //--------- LOOP TILL END OF DATA-----------------//
                       while ($card = $result->fetchAll(PDO::FETCH_ASSOC)) {
                         foreach($card as $card) { $id=$card['ID']; $cpt++; ?>
                   

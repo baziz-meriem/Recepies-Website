@@ -1,5 +1,6 @@
 <?php
 require_once "COMPOSANTS.php";
+require_once "User/UneRecette.php";
 class UneRecette extends COMPOSANTS {
   public function header(){?>
 <!DOCTYPE html>
@@ -9,7 +10,7 @@ class UneRecette extends COMPOSANTS {
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="bootstrap-4.1.3-dist/css/bootstrap.min.css">
-    <title>Catégorie recette</title>
+    <title>Details recette</title>
     <link rel="stylesheet" href="./User/styles/recettes.css" />
     <link rel="stylesheet" href="./User/styles/style.css" />
     <link rel="stylesheet" href="./User/styles/une-recette.css" />
@@ -33,74 +34,63 @@ public function Intro($recette){?>
 
 <?php
 }
-public function mainSection(){?>
+public function mainSection($recette,$etapes){?>
       <section class="recipe-content">
         <article>
           <h4 class="left-heading">Instructions</h4>
+          <?php 
+          if($recette['video']) 
+          echo '
+          <div class="embed-responsive embed-responsive-16by9">
+             <iframe class="embed-responsive-item rounded" src="assets/img/'. $recette['video'] .'" allowfullscreen></iframe> ;
+          </div>
+          '?>
+          <?php
+        foreach ($etapes as $etape) {
+          ?>
           <!-- single instruction -->
           <div class="single-instruction">
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item rounded" src="assets/img/vid-1.mp4" allowfullscreen></iframe>
-              </div>
+
             <header>
-              <p>etape 1</p>
+              <p><?php echo $etape['titre']?></p>
               <div class=""></div>
             </header>
             <p>
-              I'm baby mustache man braid fingerstache small batch venmo
-              succulents shoreditch.
+           <?php echo $etape['description'];?>
             </p>
-            <img src="assets/img/dishes-3.jpg" width="100%">
+            <?php if($etape['image']) echo '<img src="assets/img/'. $etape['image'] .'" width="100%" alt="tajin zitoun" class="card-img-top">';?>
           </div>
           <!-- end of single instruction -->
-          <!-- single instruction -->
-          <div class="single-instruction">
-            <header>
-              <p>etape 2</p>
-            </header>
-            <p>
-              Pabst pitchfork you probably haven't heard of them, asymmetrical
-              seitan tousled succulents wolf banh mi man bun bespoke selfies
-              freegan ethical hexagon.
-            </p>
-            <img src="assets/img/dishes-1.jpg" width="100%">
-          </div>
-          <!-- end of single instruction -->
-          <!-- single instruction -->
-          <div class="single-instruction">
-            <header>
-              <p>etape 3</p>
-      
-            </header>
-            <p>
-              Polaroid iPhone bitters chambray. Cornhole swag kombucha
-              live-edge.
-            </p>
-
-          </div>
-
-          <!-- end of single instruction -->
+      <?php  }          ?>
         </article>
+      
         <article class="second-column">
           <div class="ingredients">
             <h4 class="left-heading">ingredients</h4>
-            <p class="single-ingredient">1 1/2 cups dry pancake mix</p>
-            <p class="single-ingredient">1/2 cup flax seed meal</p>
-            <p class="single-ingredient">1 cup skim milk</p>
+            <?php
+                  $controller = new UneRecette_controller();
+                  $ingredients = $controller-> getIngredients($recette['ID']);
+                //--------- LOOP TILL END OF DATA-----------------//
+                  foreach($ingredients as $ingredient) {?>
+
+            <p class="single-ingredient"><?php echo $ingredient['nom'] ?></p>
+            <?php }?> 
             <div class="outils">
                 <h4 class="left-heading">Outils</h4>
                 <p class="single-tool">Hand Blender</p>
+                <p class="single-tool">Measuring Spoons</p>
                 <p class="single-tool">Large Heavy Pot With Lid</p>
                 <p class="single-tool">Measuring Spoons</p>
                 <p class="single-tool">Measuring Cups</p>
               </div>
+             
           </div>
 
         </article>
 
       </section>
-  <?php
-  }
+      <?php
+              }      
   public function iconsBar($recette){?>
 <section class="recipe-hero">
 
@@ -108,29 +98,29 @@ public function mainSection(){?>
   <article>
     <i class="fas fa-clock"></i>
     <h5>Temps Total</h5>
-    <p><?php echo $recette['temps_total']; ?></p>
+    <p><?php echo $recette['temps_total'].'min'; ?></p>
   </article>
   <article>
       <i class="far fa-clock"></i>
       <h5 >Temps Cuisson</h5>
-      <p><?php echo $recette['temps_cuisson']; ?></p>
+      <p><?php echo $recette['temps_cuisson'].'min'; ?></p>
     </article>
  
       <article>
           <i class="far fa-clock"></i>
           <h5>Temps Peparation</h5>
-          <p><?php echo $recette['temps_preparation']; ?></p>
+          <p><?php echo $recette['temps_preparation'].'min'; ?></p>
         </article>
 
   <article>
     <i class="far fa-clock"></i>
     <h5>Temps Repos</h5>
-    <p><?php echo $recette['temps_repos']; ?></p>
+    <p><?php echo $recette['temps_repos'].'min'; ?></p>
   </article>
   <article>
       <i class="fas fa-bicycle"></i>
       <h5>Nombre Calories</h5>
-      <p><?php echo $recette['calories']; ?></p>
+      <p><?php echo $recette['calories'].'Cal'; ?></p>
     </article>
 </div>
 </section>
@@ -138,13 +128,13 @@ public function mainSection(){?>
   }
 
 
-    public function afficher($recette){
+    public function afficher($recette,$etapes){
         $this->afficherNavBar();
       $this->header();
       $this->Intro($recette);
    
       $this->iconsBar($recette);
-      $this->mainSection();
+      $this->mainSection($recette,$etapes);
       $this->afficherFooter();
     }
 

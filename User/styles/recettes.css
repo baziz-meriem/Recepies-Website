@@ -15,6 +15,12 @@ p {
 .recipe p {
     font-family: 'Merienda', cursive;
 }
+.select-text{
+  font-family: 'Merienda', cursive;
+ /* font-family: 'Abril Fatface', cursive;*/
+ padding-top: 1rem;
+ font-weight:600;
+}
 
 .page{
     margin-top: 50px;
@@ -68,6 +74,7 @@ Recipes
 .recipes-container {
   display: grid;
   gap: 2rem 1rem;
+  padding: 0 2rem 2rem 0;
 }
 
 .recipes-list {
@@ -81,7 +88,8 @@ Recipes
   display: flex;
   flex-direction: column;
   padding-bottom: 3rem;
-  /* background: blue; */
+  /*background: blue; */
+
 }
 .tags-container h4 {
   margin-bottom: 0.5rem;
@@ -90,6 +98,8 @@ Recipes
 .tags-list {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  padding:0 3rem 0 3rem ;
+ 
 }
 .tags-list a {
   text-transform: capitalize;
@@ -131,7 +141,7 @@ Recipes
 
 @media screen and (min-width: 992px) {
   .recipes-container {
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 340px 1fr;
     gap: 1rem;
   }
   .recipes-list {
@@ -159,3 +169,59 @@ Recipes
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
+/*---------------------*/
+
+
+/* checkbox-rect2 */
+.checkbox-rect2 input[type="checkbox"] {
+  display: none  !important;
+
+}
+.checkbox-rect2 input[type="checkbox"] text {
+  display: block  !important;
+
+}
+.checkbox-rect2 input[type="checkbox"] + label {
+  display: block !important;
+  position: relative !important;
+  padding-left: 35px !important;
+  margin-bottom: 20px !important;
+  font: 14px/20px "Open Sans", Arial, sans-serif !important;
+  cursor: pointer !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+}
+.checkbox-rect2 input[type="checkbox"]:hover + label:hover {
+  color: rgb(23, 86, 228)!important;
+}
+.checkbox-rect2 input[type="checkbox"]:hover + label:before { 
+  border: 1px solid #343a3f !important;
+  box-shadow: 2px 1px 0 #343a3f !important;
+}
+.checkbox-rect2 input[type="checkbox"] + label:last-child {
+  margin-bottom: 0  !important;
+}
+.checkbox-rect2 input[type="checkbox"] + label:before {
+  content: ""  !important;
+  display: block  !important;
+  width: 1.4em  !important;
+  height: 1.4em;
+  border: 1px solid #343a3f  !important;
+  border-radius: 0.2em  !important;
+  position: absolute  !important;
+  left: 0  !important;
+  top: 0  !important;
+  -webkit-transition: all 0.2s, background 0.2s ease-in-out  !important;
+  transition: all 0.2s, background 0.2s ease-in-out  !important;
+  background: rgba(7, 68, 5, 0.03)  !important;
+  box-shadow: -2px -1px 0 #343a3f  !important;
+  background: #f3f3f3  !important;
+}
+.checkbox-rect2 input[type="checkbox"]:checked + label:before {
+  border: 2px solid #fff  !important;
+  border-radius: 0.3em  !important;
+  background: #F58B00  !important;
+  box-shadow: 2px 1px 0 #F58B00  !important;
+}
+/* checkbox-rect2 end */

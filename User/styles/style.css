@@ -68,9 +68,7 @@ body {
      background-color: #fff;
      border-radius: 50px;
  
-  }
-
-  
+  } 
   .sticky-nav {
     position: sticky;
     top:0;
@@ -80,8 +78,6 @@ body {
     font-family: 'Merienda', cursive ;
     z-index: 900;
   }
-
-  
   .nav > .nav-links{
     display: flex;
     align-items: center;

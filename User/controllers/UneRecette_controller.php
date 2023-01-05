@@ -7,7 +7,8 @@ require_once './User/UneRecette.php';
 
 
 class UneRecette_controller {
-    public function getRecetteDetails($id){  
+
+    public function getRecetteDetails($id) {  
 
             $model = new UneRecette_model();
             $recette=$model->getRecette($id);
@@ -17,6 +18,12 @@ class UneRecette_controller {
            // echo "?page=unerecette";
           
     }
+    public function getIngredients($recette_id){
+        $model = new UneRecette_model();
+            $ingredients=$model->getIngredients($recette_id);
+            return $ingredients;
+    }
+
 }
 
 ?>

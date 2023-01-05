@@ -22,11 +22,27 @@ class UneRecette_model{
     public function getEtapes($recette_id){
         $auth = new AUTH_model();
         $conn=$auth->connectDB($this->host,$this->name,$this->password,$this->database);
-        $sql="SELECT * FROM `etapes_recette` WHERE `recette_id`='.$recette_id.' ORDER BY ID ASC";
+        $sql='SELECT * FROM `etapes_recette` WHERE `recette_id`='.$recette_id.' ORDER BY ID ASC ';
         $q=$auth-> query($conn,$sql);
-        $results = $q->fetchAll(PDO::FETCH_ASSOC);
+       $res= $q->fetchAll(PDO::FETCH_ASSOC);
         $auth-> disconnect($conn);
-        return $results;
+       // print_r($q);
+        return $res;
     }
+    public function getIngredients($recette_id){
+        $auth = new AUTH_model();
+        $conn=$auth->connectDB($this->host,$this->name,$this->password,$this->database);
+        $sql1='SELECT * 
+        FROM `ingredients_recettes`  
+        INNER JOIN `ingredients`
+        ON ingredients.ID = ingredients_recettes.ingredient_id
+        WHERE `recette_id`='.$recette_id.'';
+        $q=$auth-> query($conn,$sql1);
+       $ingredients_id = $q->fetchAll(PDO::FETCH_ASSOC);
+        $auth-> disconnect($conn);
+        //print_r($ingredients_id);
+        return $ingredients_id;
+    }
+
 }
 ?>

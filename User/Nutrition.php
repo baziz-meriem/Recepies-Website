@@ -1,5 +1,7 @@
 <?php
 require_once "COMPOSANTS.php";
+require_once "User/controllers/Nutrition_controller.php";
+
 class Nutrition extends COMPOSANTS {
   
   public function header(){?>
@@ -26,7 +28,7 @@ public function Intro(){?>
     <div >
         <img class="bg-transparent position-absolute" style="z-index:999 ;width:200px; margin-bottom: 30px;" src="./assets/img/logo.png">
 
-        <h1 class="heading">News</h1>
+        <h1 class="heading">Nutrition</h1>
        <center><p class="description" style="color:#51724e">Dans cette page vous pouver voir toute les recettes disponible et filtrer selon vos choix tout est disponibe en un seul click</p></center> 
     </div>
 <?php
@@ -56,9 +58,16 @@ public function mainSection(){?>
           Viande
         </button>
       </div>
+      <?php  
+         $controller = new Nutrition_controller();
+         $data = $controller-> getData();
+      ?>
+      <?php echo json_encode($data) ?>
+      <input type="hidden" id="data" value="<?php echo json_encode($data) ?>" />
       <div id="products"></div>
     </div>
-    <script><?php require_once("js/script.js"); ?></script>
+    <script><?php require_once("js/script.js"); ?>
+  </script>
   <?php
   }
 

@@ -12,8 +12,6 @@ require_once './User/controllers/UneRecette_controller.php';
 
 
 
-
-
 $fulUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 if(strpos($fulUrl,"page=recettes") == true){

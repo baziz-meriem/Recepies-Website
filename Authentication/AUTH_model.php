@@ -20,7 +20,7 @@ class AUTH_Model {
    }
    
    public function disconnect($connect){
-      $this->connection = null;
+     // $this->connection = null;
    }
   public function query($connect,$req){
    return $connect->query($req);
