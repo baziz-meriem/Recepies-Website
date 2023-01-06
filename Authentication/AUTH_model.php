@@ -33,7 +33,8 @@ public function Login($mail,$password){
     $query = "SELECT * FROM utilisateur WHERE mail = ? AND mot_de_passe = ?";  
     $statement = $connect->prepare($query);  
     $statement->execute(array($mail,$password));
-    $count=$statement->fetch(PDO::FETCH_OBJ);
+    $count = $statement->rowCount();
+    //$count=$statement->fetch(PDO::FETCH_OBJ);
     $this->disconnect($connect); 
     return $count;
 }

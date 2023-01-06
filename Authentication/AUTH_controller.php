@@ -36,9 +36,12 @@ class AUTH_controller{
                 $mot_de_passe= strip_tags(trim($_POST['mot_de_passe']));
                 $model=new  AUTH_Model();
                 $res=$model->Login($mail,$mot_de_passe);
-                session_start();
+                print_r($res);
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
                 unset($_POST);
-                  if($res > 0)  
+                  if($res>0)  
                   {  
                        $_SESSION["mail"] = $mail;  
                        header("location:Authentication/login_success.php");    

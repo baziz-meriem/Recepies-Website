@@ -4,7 +4,6 @@ session_start();
 
 require_once './User/Accueil.php';
 require_once './Authentication/connection.php';
-require_once './User/Nutrition.php';
 require_once './User/News.php';
 require_once './User/NewsDetails.php';
 require_once './User/Recettes.php';
