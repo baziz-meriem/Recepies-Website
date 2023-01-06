@@ -40,7 +40,7 @@ public function mainSection($dataDetails,$data){?>
     </div>
     <main>
     <h2 class="big_title" style="text-align:center"><?php echo $data["titre"] ?></h2>
-       <?php if($data['video']) echo '
+     <?php if($data['video']) echo '
           <div class="news_video">
           
                <iframe  src="assets/img/'.$data["video"].'" allowfullscreen></iframe> 

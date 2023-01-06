@@ -38,8 +38,9 @@ public function mainSection($data,$titre){?>
             
             <h2 class="category"><?php  if($titre =="News & Actualités") { echo $row['type']; } else echo $row['saison']; ?></h2>
             
-          <?php echo ' <a href="./index.php?page=newsDetails&id= ' . $id . '" class="post-title">' ?>
-              <?php if($titre =="News & Actualités") {echo  $row['titre'];} else echo  $row['nom']  ?>
+          <?php if($titre =="News & Actualités") {echo ' <a href="./index.php?page=newsDetails&id= ' . $id . '" class="post-title">';} ?>
+          <?php if($titre == "Nutrition & Informations") {echo '<a href="./index.php?page=nutritionDetails&id= '. $id .'" class="post-title">' ;}?>   
+          <?php echo  $row['titre']  ?>
             </a>
             <span class="post-date"><?php if($titre =="News & Actualités") {echo $row['date'] ;} else {if($row['healthy'] == "oui") {echo 'healthy';} else {echo 'unhealthy' ;}}?></span>
             <span class="post-description">
