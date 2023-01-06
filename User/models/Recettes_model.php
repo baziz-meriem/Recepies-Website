@@ -54,6 +54,7 @@ class Recettes_model {
         $auth-> disconnect($conn);
         return $result;
     }
+    
 }
 
 ?>

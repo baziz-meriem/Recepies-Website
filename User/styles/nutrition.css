@@ -62,7 +62,7 @@
     padding: 1em 0.3em;
   }
   #search-container input:focus {
-    border-bottom-color: #F58B00;;
+    border-bottom-color: #F58B00;
   }
   #search-container button {
     padding: .8em 1.8em;

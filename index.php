@@ -1,10 +1,12 @@
 <?php
 
-    session_start();
+session_start();
 
 require_once './User/Accueil.php';
 require_once './Authentication/connection.php';
 require_once './User/Nutrition.php';
+require_once './User/News.php';
+require_once './User/NewsDetails.php';
 require_once './User/Recettes.php';
 require_once './User/UneRecette.php';
 require_once './User/controllers/UneRecette_controller.php';
@@ -20,7 +22,15 @@ if(strpos($fulUrl,"page=recettes") == true){
 } else if(strpos($fulUrl,"page=nutrition")== true){
     $view = new Nutrition();
     $view->afficher();
-} else if(strpos($fulUrl,"page=connection")== true){
+}else if(strpos($fulUrl,"page=newsDetails")== true){
+    $view = new NewsDetails();
+    $view->afficher();
+}
+else if(strpos($fulUrl,"page=news")== true){
+    $view = new News();
+    $view->afficher();
+}
+ else if(strpos($fulUrl,"page=connection")== true){
     $view = new connection();
     $view->afficher();
 }else if(strpos($fulUrl,"page=unerecette")== true ) {

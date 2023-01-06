@@ -1,0 +1,109 @@
+*{
+    box-sizing: border-box;
+    margin:0
+}
+body{
+    background:rgba(155, 174, 20, .3);
+}
+.container{
+max-width:1068px;
+margin:auto;
+width:100%;
+
+}
+.post{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(280,auto));
+    justify-content: center;
+    gap:2re;
+}
+.post-box{
+   /* background-color: rgba(245,139,0,0.3);*/
+    background-color: rgb(250, 196, 125);
+    box-shadow: 0 4px 14px hsl(355deg 25% 15% / 10%);
+    padding: 15px;
+    border-radius: 0.5rem;
+    margin-top: 3ch;
+}
+
+.post-img{
+    width:100%;
+    height: 200px;
+    object-fit: cover;
+    object-position:center ;
+    border-radius: 0.5rem;
+
+}
+.category{
+    font-size:0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color:brown;
+}
+.post-title{
+    font-size:1.3rem;
+    font-weight:600 ;
+    color:bisque;
+    /*remove title in 2 lines*/
+    display: -webkit-box;
+    -webkit-line-clamp:1;
+    -webkit-box-orient:vertical;
+    overflow: hidden;
+}
+.post-date{
+    display:flex;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 4px;
+}
+.post-description{
+    font-size: 0.9rem;
+    line-height: 1.5rem;
+    margin: 5px 0 10px;
+     /*remove desc in  more than3 lines*/
+     display: -webkit-box;
+     -webkit-line-clamp:3;
+     -webkit-box-orient:vertical;
+     overflow: hidden;
+}
+.profile{
+    display: flex;
+    align-items: center;
+    gap:10px;
+}
+.profile-img{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    object-fit:cover;
+    object-position:center;
+    border:2px solid black;
+}
+/**-------------------NEWS DETAILS------------------*/
+.container{
+    width:100%;
+    max-width: 117rem;
+  
+}
+
+.heroo{
+    max-width: 114rem;
+    height: 25rem;
+    background: url(../../assets/img/food-2.jpg) 
+    no-repeat center center / cover;
+    margin:0;
+
+    border-radius:0.75rem;
+}
+
+main{
+    width:85%;
+    max-width: 80rem;
+    background-color:  rgb(250, 196, 125);
+    margin: 0 auto;
+    padding: 3rem;
+    border-radius: 1.5rem;
+    margin-top: -12rem;
+    margin-bottom: 7rem;
+}
