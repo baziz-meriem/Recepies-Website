@@ -27,25 +27,23 @@ class News extends COMPOSANTS {
         <script src="bootstrap-4.1.3-dist/js/bootstrap.min.js"></script>
         <?php
 }
-public function mainSection(){?>
+public function mainSection($data,$titre){?>
     <section class="post container" style="margin-bottom:60px">
     <?php
-            $controller = new News_controller();
-            $data = $controller->getNews();
             foreach ($data as $row) { $id=$row['ID'];
                 ?>
               
         <div class="post-box">
             <img src="./assets/img/food-1.jpg" alt="" class="post-img">
             
-            <h2 class="category"><?php echo  $row['type'] ?></h2>
+            <h2 class="category"><?php  if($titre =="News & Actualités") { echo $row['type']; } else echo $row['saison']; ?></h2>
             
           <?php echo ' <a href="./index.php?page=newsDetails&id= ' . $id . '" class="post-title">' ?>
-              <?php echo  $row['titre'] ?>
+              <?php if($titre =="News & Actualités") {echo  $row['titre'];} else echo  $row['nom']  ?>
             </a>
-            <span class="post-date"><?php echo $row['date'] ?></span>
+            <span class="post-date"><?php if($titre =="News & Actualités") {echo $row['date'] ;} else {if($row['healthy'] == "oui") {echo 'healthy';} else {echo 'unhealthy' ;}}?></span>
             <span class="post-description">
-            <?php echo $row['titre'] ?>
+            <?php echo $row['description'] ?>
 
         </div>
         <?php  }  ?>
@@ -55,11 +53,11 @@ public function mainSection(){?>
 }
 
 
-public function Intro(){?>
+public function Intro($titre){?>
     <div >
         <img class="bg-transparent position-absolute" style="z-index:999 ;margin-top:30px " src="./assets/img/logo.png">
 
-        <h1 class="heading"> News & Actualités</h1>
+        <h1 class="heading"><?php echo $titre?></h1>
        <center><p class="description" style="color:#51724e">Dans cette page vous pouver voir toute les recettes disponible et filtrer selon vos choix tout est disponibe en un seul click</p></center> 
     </div>
 
@@ -69,11 +67,11 @@ public function Intro(){?>
 
 
 
-    public function afficher(){
+    public function afficher($data,$titre){
       $this->header();
-      $this->Intro();
+      $this->Intro($titre);
       $this->afficherNavBar();
-      $this->mainSection();
+      $this->mainSection($data,$titre);
       $this->afficherFooter();
     }
 

@@ -33,21 +33,21 @@ public function Intro(){?>
 
 <?php
 }
-public function mainSection($newsDetails,$news){?>
+public function mainSection($dataDetails,$data){?>
 <div class="container">
-    <div class="heroo">
+    <div class="heroo" style="background:url(<?php echo './assets/img/'.$data['image']; ?>) no-repeat center center  / cover;">
 
     </div>
     <main>
-    <h2 class="big_title" style="text-align:center"><?php echo $news["titre"] ?></h2>
-       <?php if($news['video']) echo '
+    <h2 class="big_title" style="text-align:center"><?php echo $data["titre"] ?></h2>
+       <?php if($data['video']) echo '
           <div class="news_video">
           
-               <iframe  src="assets/img/'.$news["video"].'" allowfullscreen></iframe> 
+               <iframe  src="assets/img/'.$data["video"].'" allowfullscreen></iframe> 
           </div>'
         ?>
         <?php
-        foreach ($newsDetails as $row) {
+        foreach ($dataDetails as $row) {
           ?>
         <div class="content">
           <h4 class="title"><?php echo $row['titre']?></h4>
@@ -71,10 +71,10 @@ public function mainSection($newsDetails,$news){?>
 
 
 
-    public function afficher($newsDetails,$news){
+    public function afficher($dataDetails,$data){
       $this->header();
       $this->afficherNavBar();
-      $this->mainSection($newsDetails,$news);
+      $this->mainSection($dataDetails,$data);
       $this->afficherFooter();
     }
 

@@ -20,6 +20,16 @@ class Nutrition_model {
         $auth-> disconnect($conn);
         return $result;
     }
+    public function getIngredients(){
+            $auth = new AUTH_model();
+            $conn=$auth->connectDB($this->host,$this->name,$this->password,$this->database);
+            $sql = "SELECT * FROM `ingredients`  ORDER BY ID ASC";
+            $q=$auth-> query($conn,$sql);
+            $result= $q->fetchAll(PDO::FETCH_ASSOC);
+           // print_r($result);
+            $auth-> disconnect($conn);
+            return $result;
+    }
 
 }
 

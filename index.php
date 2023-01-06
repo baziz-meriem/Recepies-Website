@@ -33,9 +33,16 @@ if(strpos($fulUrl,"page=recettes") == true){
     $view->afficherOnefilter($saisons,"saison");
 }
 else if(strpos($fulUrl,"page=nutrition")== true){
-    $view = new Nutrition();
-    $view->afficher();
-}else if(strpos($fulUrl,"page=newsDetails")== true){
+   // $view = new Nutrition();
+   // $view->afficher();
+   $controller = new Nutrition_controller();
+   $data = $controller->getIngredients();
+   $view = new News();
+   $view->afficher($data,"Nutrition & Informations");
+}else if(strpos($fulUrl,"page=nutritionDetails")== true){
+
+ }
+else if(strpos($fulUrl,"page=newsDetails")== true){
     $id = $_GET['id'];
     //echo $id;
     $controller = new News_controller();
@@ -45,9 +52,12 @@ else if(strpos($fulUrl,"page=nutrition")== true){
     $view = new NewsDetails();
     $view->afficher($newsDetails,$news); 
 }
-else if(strpos($fulUrl,"page=news")== true){
+else if(strpos($fulUrl,"page=news")== true){            
+    $controller = new News_controller();
+    $data = $controller->getNews();
+
     $view = new News();
-    $view->afficher();
+    $view->afficher($data,"News & Actualités");
 }
  else if(strpos($fulUrl,"page=connection")== true){
     $view = new connection();

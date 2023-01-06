@@ -10,6 +10,11 @@ class Nutrition_controller {
         $data=$model->getData();
         return $data;
     }
+    public function getIngredients(){
+        $model = new Nutrition_model();
+        $data=$model->getIngredients();
+        return $data;
+    }
 
 }
 
