@@ -29,82 +29,27 @@ class News extends COMPOSANTS {
 }
 public function mainSection(){?>
     <section class="post container" style="margin-bottom:60px">
+    <?php
+            $controller = new News_controller();
+            $data = $controller->getNews();
+            foreach ($data as $row) { $id=$row['ID'];
+                ?>
+              
         <div class="post-box">
             <img src="./assets/img/food-1.jpg" alt="" class="post-img">
-            <h2 class="category">Mobile</h2>
-            <a href="post-page.html" class="post-title">
-                HOw to create ui ux
+            
+            <h2 class="category"><?php echo  $row['type'] ?></h2>
+            
+          <?php echo ' <a href="./index.php?page=newsDetails&id= ' . $id . '" class="post-title">' ?>
+              <?php echo  $row['titre'] ?>
             </a>
-            <span class="post-date">12 feb 2022</span>
+            <span class="post-date"><?php echo $row['date'] ?></span>
             <span class="post-description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam qui harum, neque beatae praesentium cum commodi dolorum vero et quos iusto, obcaecati inventore expedita quam consequuntur saepe, aperiam distinctio perferendis quibusdam corporis libero? Veritatis unde deleniti odio nesciunt architecto quisquam impedit. Iusto expedita quibusdam nulla harum, voluptate iste libero error repellendus voluptas ratione debitis itaque dolorum dolor maxime a dolore quos tempore commodi atque aperiam odit distinctio ea? Corporis nemo est molestias velit, porro eveniet perferendis modi? Magnam impedit non iste quam libero culpa, labore dolor. Quod adipisci ipsa veniam autem aperiam porro unde quidem doloribus
-            </span>
+            <?php echo $row['titre'] ?>
 
         </div>
+        <?php  }  ?>
 
-        <div class="post-box">
-            <img src="./assets/img/food-1.jpg" alt="" width="200px" class="post-img">
-            <h2 class="category">Mobile</h2>
-            <a href="post-page.html" class="post-title">
-                HOw to create ui ux
-            </a>
-            <span class="post-date">12 feb 2022</span>
-            <span class="post-description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam qui harum, neque beatae praesentium cum commodi dolorum vero et quos iusto, obcaecati inventore expedita quam consequuntur saepe, aperiam distinctio perferendis quibusdam corporis libero? Veritatis unde deleniti odio nesciunt architecto quisquam impedit. Iusto expedita quibusdam nulla harum, voluptate iste libero error repellendus voluptas ratione debitis itaque dolorum dolor maxime a dolore quos tempore commodi atque aperiam odit distinctio ea? Corporis nemo est molestias velit, porro eveniet perferendis modi? Magnam impedit non iste quam libero culpa, labore dolor. Quod adipisci ipsa veniam autem aperiam porro unde quidem doloribus
-            </span>
-
-        
-        </div>
-        <div class="post-box">
-            <img src="./assets/img/food-4.jpg" alt="" width="200px" class="post-img">
-            <h2 class="category">Mobile</h2>
-            <a href="post-page.html" class="post-title">
-                HOw to create ui ux
-            </a>
-            <span class="post-date">12 feb 2022</span>
-            <span class="post-description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam qui harum, neque beatae praesentium cum commodi dolorum vero et quos iusto, obcaecati inventore expedita quam consequuntur saepe, aperiam distinctio perferendis quibusdam corporis libero? Veritatis unde deleniti odio nesciunt architecto quisquam impedit. Iusto expedita quibusdam nulla harum, voluptate iste libero error repellendus voluptas ratione debitis itaque dolorum dolor maxime a dolore quos tempore commodi atque aperiam odit distinctio ea? Corporis nemo est molestias velit, porro eveniet perferendis modi? Magnam impedit non iste quam libero culpa, labore dolor. Quod adipisci ipsa veniam autem aperiam porro unde quidem doloribus
-            </span>
-
-        </div>
-        <div class="post-box">
-            <img src="./assets/img/food-1.jpg" alt="" class="post-img">
-            <h2 class="category">Mobile</h2>
-            <a href="post-page.html" class="post-title">
-                HOw to create ui ux
-            </a>
-            <span class="post-date">12 feb 2022</span>
-            <span class="post-description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam qui harum, neque beatae praesentium cum commodi dolorum vero et quos iusto, obcaecati inventore expedita quam consequuntur saepe, aperiam distinctio perferendis quibusdam corporis libero? Veritatis unde deleniti odio nesciunt architecto quisquam impedit. Iusto expedita quibusdam nulla harum, voluptate iste libero error repellendus voluptas ratione debitis itaque dolorum dolor maxime a dolore quos tempore commodi atque aperiam odit distinctio ea? Corporis nemo est molestias velit, porro eveniet perferendis modi? Magnam impedit non iste quam libero culpa, labore dolor. Quod adipisci ipsa veniam autem aperiam porro unde quidem doloribus
-            </span>
-
-        </div>
-
-        <div class="post-box">
-            <img src="./assets/img/food-1.jpg" alt="" width="200px" class="post-img">
-            <h2 class="category">Mobile</h2>
-            <a href="post-page.html" class="post-title">
-                HOw to create ui ux
-            </a>
-            <span class="post-date">12 feb 2022</span>
-            <span class="post-description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam qui harum, neque beatae praesentium cum commodi dolorum vero et quos iusto, obcaecati inventore expedita quam consequuntur saepe, aperiam distinctio perferendis quibusdam corporis libero? Veritatis unde deleniti odio nesciunt architecto quisquam impedit. Iusto expedita quibusdam nulla harum, voluptate iste libero error repellendus voluptas ratione debitis itaque dolorum dolor maxime a dolore quos tempore commodi atque aperiam odit distinctio ea? Corporis nemo est molestias velit, porro eveniet perferendis modi? Magnam impedit non iste quam libero culpa, labore dolor. Quod adipisci ipsa veniam autem aperiam porro unde quidem doloribus
-            </span>
-
-        
-        </div>
-        <div class="post-box">
-            <img src="./assets/img/food-4.jpg" alt="" width="200px" class="post-img">
-            <h2 class="category">Mobile</h2>
-            <a href="post-page.html" class="post-title">
-                HOw to create ui ux
-            </a>
-            <span class="post-date">12 feb 2022</span>
-            <span class="post-description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam qui harum, neque beatae praesentium cum commodi dolorum vero et quos iusto, obcaecati inventore expedita quam consequuntur saepe, aperiam distinctio perferendis quibusdam corporis libero? Veritatis unde deleniti odio nesciunt architecto quisquam impedit. Iusto expedita quibusdam nulla harum, voluptate iste libero error repellendus voluptas ratione debitis itaque dolorum dolor maxime a dolore quos tempore commodi atque aperiam odit distinctio ea? Corporis nemo est molestias velit, porro eveniet perferendis modi? Magnam impedit non iste quam libero culpa, labore dolor. Quod adipisci ipsa veniam autem aperiam porro unde quidem doloribus
-            </span>
-
-        </div>
     </section>
     <?php
 }
@@ -121,6 +66,7 @@ public function Intro(){?>
 
 <?php
 }
+
 
 
     public function afficher(){

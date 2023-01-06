@@ -50,7 +50,6 @@ public function mainSection($recette,$etapes){?>
           ?>
           <!-- single instruction -->
           <div class="single-instruction">
-
             <header>
               <p><?php echo $etape['titre']?></p>
               <div class=""></div>

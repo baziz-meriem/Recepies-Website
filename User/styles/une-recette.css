@@ -4,7 +4,9 @@
 Hero
 ===============
 */
-
+body{
+  background:rgb(247, 246, 244) !important;
+}
 .hero {
     height: 55vh;
     position: relative;

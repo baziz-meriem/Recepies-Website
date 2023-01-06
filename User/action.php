@@ -14,6 +14,10 @@ require_once '../Authentication/AUTH_model.php';
                 $saison = implode("','", $_POST['saison']); 
                 $sql .="AND saison IN('".$saison."')";
             }
+            if(isset($_POST['fete'])){
+                $fete = implode("','", $_POST['fete']); 
+                $sql .="AND fete IN('".$fete."')";
+            }
             if(isset($_POST['notation'])){
                 $notation = implode("','", $_POST['notation']); 
                 $sql .="AND notation IN('".$notation."')";

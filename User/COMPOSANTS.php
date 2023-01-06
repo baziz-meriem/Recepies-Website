@@ -19,8 +19,8 @@ class COMPOSANTS {
                   <li><a href="./index.php?page=recettes" target="_blank">Recettes</a></li>
                   <li><a href="./index.php?page=news" target="_blank">News</a></li>
                   <li><a href="#" target="_blank">Healthy</a></li>
-                  <li><a href="#" target="_blank">Saison</a></li>
-                  <li><a href="#" target="_blank">Fete</a></li>
+                  <li><a href="./index.php?page=saison" target="_blank">Saison</a></li>
+                  <li><a href="./index.php?page=fete" target="_blank">Fete</a></li>
                   <li><a href="./index.php?page=nutrition"  target="_blank">Nutrition</a></li>
                   <li><a href="#footer" >Contact</a></li>
                   <a href="./index.php?page=connection"><button id="commancer" class="btn btn-outline-light btn-ms  "> Commancer</button></a>
@@ -58,7 +58,7 @@ class COMPOSANTS {
                   
                     <div class="card d-none d-md-block">
                      
-                     <?php  echo '<img src="assets/img/'. $card['image'] .'" alt="tajin zitoun" class="card-img-top">';?>
+                     <?php  echo '<img src="assets/img/'. $card['image'] .'" class="card-img-top">';?>
                       <div class="card-body">
                         <h5 class="card-title"><?php echo $card["titre"]; ?></h5>
                         <p class="card-text"><?php echo $card["description"]; ?></p>

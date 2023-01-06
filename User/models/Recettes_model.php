@@ -54,6 +54,17 @@ class Recettes_model {
         $auth-> disconnect($conn);
         return $result;
     }
+    public function getFilters($column){
+        $auth = new AUTH_model();
+        $conn=$auth->connectDB($this->host,$this->name,$this->password,$this->database);
+        $query = "SELECT DISTINCT($column) FROM recettes  ORDER BY ID ASC";
+        $q=$auth-> query($conn,$query);
+        $result= $q->fetchAll(PDO::FETCH_ASSOC);
+        
+       // print_r($result);
+        $auth-> disconnect($conn);
+        return $result;
+    }
     
 }
 

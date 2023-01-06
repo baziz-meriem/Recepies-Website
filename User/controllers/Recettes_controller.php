@@ -25,6 +25,11 @@ class Recettes_controller {
         $data=$model->getRecettes();
         return $data;
     }
+    public function getFilters($column){
+        $model = new Recettes_model();
+        $data=$model->getFilters($column);
+        return $data;
+    }
 }
 
 ?>

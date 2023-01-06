@@ -33,39 +33,29 @@ public function Intro(){?>
 
 <?php
 }
-public function mainSection(){?>
+public function mainSection($newsDetails,$news){?>
 <div class="container">
     <div class="heroo">
 
     </div>
     <main>
-        <h2>Beauty is here</h2>
-        <div class="profile-container">
-            <div class="profile">
-            <div class="img-container">
-
-            </div>
-            <div class="text">
-                <h3>Ellen deo</h3>
-                <p>Ellen deo<p>
-
-            </div>
-        </div>
-
-        </div>
+    <h2 class="big_title" style="text-align:center"><?php echo $news["titre"] ?></h2>
+       <?php if($news['video']) echo '
+          <div class="news_video">
+          
+               <iframe  src="assets/img/'.$news["video"].'" allowfullscreen></iframe> 
+          </div>'
+        ?>
+        <?php
+        foreach ($newsDetails as $row) {
+          ?>
         <div class="content">
-  
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam harum, repell nemo quidem quisquam facilis? Dolore amet sequi reiciendis magnam tempore aperiam! Ad, assumenda consectetur. Commodi reprehenderit illo cumque id maxime illum, molestiae asperiores quae doloremque vel, hic omnis itaque ea, beatae error cupiditate. Voluptatem voluptate, odio ut, quo officiis at consequuntur, quibusdam corporis nulla hic non temporibus accusamus. Laudantium, porro consectetur quaerat voluptates doloremque fugiat similique distinctio quod maxime repudiandae tenetur dolorum libero. Ratione repudiandae quia quo aperiam mollitia atque molestias assumenda tempore beatae magnam labore architecto, accusamus dolore, iure corporis? Excepturi, quibusdam!</p>
-    <h4>Lorem ipsum dolor, sit amet consectetur adipisicing elittam porro sunt! Ipsum, obcaecati natus. Dolore harum tempore eum reprehenderit tenetur doloribus optio aperiam a natus nostrum pariatur quam blanditiis libero ipsa quasi beatae adipisci at, dolorem enim cupiditate molestias sed facilis nihil.</h4>
-    <p>Lorem, ipsum dolor sit amet consema possimus exercitationem harum quasi aperiam delectus accusamus velit corporis a eveniet eum dolorem quam eos consequuntur! Sapiente doloremque officia fugiat dolore minima, dolorum optio illo voluptatem dolores voluptatibus laudantium perspiciatis aut rerum recusandae fuga numquam debitis odio enim reiciendis dignissimos provident eveniet eaque nihil. Quisquam numquam dolores nesciunt illum eum, a minus quo ipsum illo repellendus, dolore quis iusto repudiandae minima dolorum dicta! Cum.</p>
-</div>
-<div class="content-img-container">
+          <h4 class="title"><?php echo $row['titre']?></h4>
+          <p class="paragraph"> <?php echo $row['description']?></p>
+        </div>
+        <?php if($row['image']) echo '<img src="assets/img/'. $row['image'] .'" width="100%" alt="tajin zitoun" class="news_img">';?>
+      <?php  }          ?>     
 
-</div>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing  doloribus tempore commodi atque illum ex quidem incidunt eaque, ratione itaque voluptatibus illo cupiditate quia facere impedit delectus, accusantium corporis autem? Recusandae, perspiciatis blanditiis. Hic quasi, ea quae laboriosam aut ullam est eius modi.</p>
-  <h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, in. Repellendus nobis voluptatum quas odit quam voluptatibus! Quasi temporibus quisquam eum provident enim error culpa asperiores, neque dolores sit, recusandae molestias numquam atque!</h4>
-  <p>Lorem ipsum dolor, sit amet consectetur adipisicing  Delectus et dolorem commodi porro nam consequuntur voluptates quidem! Suscipit exercitationem atque, assumenda, beatae eos laboriosam commodi harum nostrum, odit nulla corrupti doloremque. Neque, enim perferendis? Tenetur quaerat, commodi doloribus vitae natus quisquam ad reiciendis dolores nihil voluptatum in quis ex ullam porro recusandae ipsam adipisci debitis autem perspiciatis. Temporibus accusamus suscipit quibusdam sint labore repellendus vitae sequi ipsum delectus odit.</p>
-    
 
 </div>
 
@@ -81,10 +71,10 @@ public function mainSection(){?>
 
 
 
-    public function afficher(){
+    public function afficher($newsDetails,$news){
       $this->header();
       $this->afficherNavBar();
-      $this->mainSection();
+      $this->mainSection($newsDetails,$news);
       $this->afficherFooter();
     }
 
