@@ -28,6 +28,17 @@ class Recette_controller {
             $data=$model->validerRecette($id);
         }
     }
+    public function updateRecette(){
+        if(isset($_GET['id']))
+        {
+            $row_id = $_GET['id'];
+            $model = new Recette_model();
+            $data=$model->getRecette($row_id);
+
+            return $data;
+        }
+
+    }
     public function insererRecette(){
         if(isset($_POST["inserer"])){
             $categorie= strip_tags(trim($_POST['categorie']));

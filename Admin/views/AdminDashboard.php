@@ -165,8 +165,7 @@ class AdminDashboard extends COMPOSANTS{
 
                     <div class="record-header"  style="margin:0 2rem 0 2rem">
                         <div class="add">
-                            <button style="background-color:#F58B00;margin:1rem"><a href="./index.php?page=ajout">Ajouter</a></button>
-                            <button >modifier</button>
+                            <button style="margin:1rem"><a href="./index.php?page=ajout">Ajouter</a></button>
                         </div>
 
                         <div class="browse">
@@ -290,9 +289,15 @@ class AdminDashboard extends COMPOSANTS{
 
                                            <form  method="post" action="<?php
                                             $controller = new Recette_controller();
-                                            $controller->validerRecette(); ?>">
+                                            $controller->validerRecette(); $id=$row['ID']; ?>">
                                             <input type="text" name="id" value="<?php echo $row['ID'] ?>" hidden>
                                                 <button class="icon_button"><input  type="submit" name="valider" value="valider" ><i class="las la-pencil-alt"></i></button>
+                                            </form>
+                                            <form  method="post" action="<?php
+                                            $controller = new Recette_controller();
+                                            $controller->updateRecette(); ?>">
+                                            <input type="text" name="id" value="<?php echo $row['ID'] ?>" hidden>
+                                          <?php   echo  '<button class="btn"><a href="./index.php?page=ajout&id=' . $id . '">modifier</a><i class="las la-trash"></i></button> '?> 
                                             </form>
 
                                            <form  method="post" action="<?php
@@ -301,9 +306,7 @@ class AdminDashboard extends COMPOSANTS{
                                             <input type="text" name="id" value="<?php echo $row['ID'] ?>" hidden>
                                                 <button class="btn"><input  type="submit" name="delete" value="delete" ><i class="las la-trash"></i></button>
                                             </form>
-                                           
 
-                                
                                         </div>
                                     </td>
                                 </tr>

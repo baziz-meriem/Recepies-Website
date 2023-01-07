@@ -22,6 +22,15 @@ class Recette_model {
         $auth-> disconnect($conn);
         return $result;
     }
+    public function getRecette($id){
+        $auth = new AUTH_model();
+        $conn=$auth->connectDB($this->host,$this->name,$this->password,$this->database);
+        $sql = 'SELECT * FROM `recettes` WHERE ID='.$id.'  LIMIT 1';
+        $q=$auth-> query($conn,$sql);
+        $result= $q->fetch();
+        $auth-> disconnect($conn);
+        return $result;
+    }
     
     public function deleteRecettes($id){
       try{  $auth = new AUTH_model();
@@ -52,6 +61,9 @@ class Recette_model {
               return false;
           }
       }
+    public function updateRecette($id){
+
+    }
       public function insererRecette($categorie,$titre,$image,$video,$description,$saison,$fete, 
       $temps_preparation,$temps_cuisson,$temps_repos, $calories,$difficulte){
         try{  $auth = new AUTH_model();
@@ -92,6 +104,7 @@ class Recette_model {
               return false;
           }
       }
+
 
 }
 
