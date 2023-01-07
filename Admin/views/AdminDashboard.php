@@ -13,6 +13,8 @@ class AdminDashboard extends COMPOSANTS{
             <title>Admin Dashboard</title>
             <link rel="stylesheet" href="User/styles/style.css" />
             <link rel="stylesheet" href="Admin/styles/dashboard.css" />
+            <link rel="stylesheet" href="Admin/styles/form.css" />
+
             <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
         
           </head>
@@ -126,44 +128,28 @@ class AdminDashboard extends COMPOSANTS{
                     <li>
                        <a href="" class="active">
                             <span class="las la-home"></span>
-                            <small style="
-                            font-size: 15px;
-                            font-weight: 500;
-                            font-family: 'Merienda', cursive;
-                            text-transform:capitalize;">Tableau de bord</small>
+                            <small >Tableau de bord</small>
                         </a>
                     </li>
 
                     <li>
                        <a href="">
                             <span class="las la-clipboard-list"></span>
-                            <small style="
-                            font-size: 15px;
-                            font-weight: 500;
-                            font-family: 'Merienda', cursive;
-                            text-transform:capitalize;">Gesion nutrition</small>
+                            <small >Gesion nutrition</small>
                         </a>
                     </li>
 
                     <li>
                        <a href="">
                             <span class="las la-tasks"></span>
-                            <small style="
-                            font-size: 15px;
-                            font-weight: 500;
-                            font-family: 'Merienda', cursive;
-                            text-transform:capitalize;">Gestion recettes</small>
+                            <small>Gestion recettes</small>
                         </a>
                     </li>
                     
                     <li>
                        <a href="">
                             <span class="las la-clipboard-list"></span>
-                            <small style="
-                            font-size: 15px;
-                            font-weight: 500;
-                            font-family: 'Merienda', cursive;
-                            text-transform:capitalize;">Gesion news</small>
+                            <small >Gesion news</small>
                         </a>
                     </li>
 

@@ -20,7 +20,7 @@
     top: 0;
     z-index: 100;
     background: var(--color-dark);
-    transition: left 300ms;
+ 
 }
 
 .side-header {
@@ -82,9 +82,9 @@
     
 }
 
-
 .side-menu ul {
     text-align: center;
+
 }
 
 .side-menu a {
@@ -108,10 +108,7 @@
 
 .side-menu a span, .side-menu a small {
     color:#333;
-    font-size: 15px;
-    font-weight: 400;
-    font-family: 'Merienda', cursive;
-    text-transform:capitalize;
+ 
 }
 
 

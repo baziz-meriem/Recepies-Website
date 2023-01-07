@@ -19,15 +19,12 @@ class Connection {
         <body>
         <?php
     }
-
     public function login()
     { ?>
             <div class="container">
 
                 <div class="forms">
                     <div class="form Connection">
-                       
-
                         <span class="title">Connection</span>
 
                         <form method="post" action="<?php $controller = new AUTH_controller();
