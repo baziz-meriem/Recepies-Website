@@ -1,6 +1,8 @@
 <?php
 
 session_start();
+require_once './Admin/views/AdminDashboard.php';
+
 
 require_once './User/Accueil.php';
 require_once './Authentication/connection.php';
@@ -9,6 +11,7 @@ require_once './User/NewsDetails.php';
 require_once './User/Recettes.php';
 require_once './User/UneRecette.php';
 require_once './User/controllers/UneRecette_controller.php';
+require_once './User/controllers/Nutrition_controller.php';
 require_once './User/controllers/News_controller.php';
 
 
@@ -20,7 +23,11 @@ $fulUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 if(strpos($fulUrl,"page=recettes") == true){
     $view = new Recettes();
     $view->afficher();
-} else if(strpos($fulUrl,"page=fete")== true){
+}else if(strpos($fulUrl,"page=adminDashboard")== true){
+    $view = new adminDashboard();
+    $view->afficher();
+} 
+else if(strpos($fulUrl,"page=fete")== true){
     $controller = new Recettes_controller();
     $fetes = $controller->getFilters("fete");
     $view = new Recettes();

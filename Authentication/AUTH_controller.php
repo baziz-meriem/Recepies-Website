@@ -44,7 +44,7 @@ class AUTH_controller{
                   if($res>0)  
                   {  
                        $_SESSION["mail"] = $mail;  
-                       header("location:Authentication/login_success.php");    
+                       header("location:./index.php?page=adminDashboard");    
                     }  
 
                   else  
