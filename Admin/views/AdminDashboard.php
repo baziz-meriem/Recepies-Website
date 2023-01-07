@@ -262,15 +262,27 @@ class AdminDashboard extends COMPOSANTS{
 
                                     <td>
                                         <div class="actions">
-                                        <span class="las la-check-circle"></span>
-                                            <span class="las la-pencil-alt"></span>
-                                           <span class="las la-trash"></span>
-                                <form method="post" action="<?php
-                                 $controller = new Recette_controller();
-                                 $controller->deleteRecettes(); ?>">
-                                <input type="text" name="id" value="<?php echo $row['ID'] ?>" hidden>
-                                    <input type="submit" name="supprimer" value="delete">
-                                </form>
+
+                                           <form  method="post" action="<?php
+                                            $controller = new Recette_controller();
+                                            $controller->validerRecette(); ?>">
+                                            <input type="text" name="id" value="<?php echo $row['ID'] ?>" hidden>
+                                                <button class="btn"><input  type="submit" name="valider" value="valider" ><i class="las la-pencil-alt"></i></button>
+                                            </form>
+                                           <form   action="<?php
+                                            $controller = new Recette_controller();
+                                            $controller->deleteRecettes(); ?>">
+                                            <input type="text" name="id" value="<?php echo $row['ID'] ?>" hidden>
+                                                <button class="btn"><input  type="submit" name="modifier" value="modifier" ><i class="las la-pencil-alt"></i></button>
+                                            </form>
+                                           <form  method="post" action="<?php
+                                            $controller = new Recette_controller();
+                                            $controller->deleteRecettes(); ?>">
+                                            <input type="text" name="id" value="<?php echo $row['ID'] ?>" hidden>
+                                                <button class="btn"><input  type="submit" name="delete" value="delete" ><i class="las la-trash"></i></button>
+                                            </form>
+                                           
+
                                 
                                         </div>
                                     </td>

@@ -36,6 +36,21 @@ class Recette_model {
             return false;
         }
     }
+    public function validerRecette($id){
+        try{  $auth = new AUTH_model();
+          $conn=$auth->connectDB($this->host,$this->name,$this->password,$this->database);
+
+          $sql = "UPDATE recettes SET valide='1' where ID = :id ORDER BY ID ASC";
+          $stmt=$conn->prepare($sql);
+          $stmt->bindparam(':id',$id);
+          $stmt->execute();
+          $auth-> disconnect($conn);
+          return true;}
+          catch(PDOException $e){
+              echo $e->getMessage();
+              return false;
+          }
+      }
 
 
 }
