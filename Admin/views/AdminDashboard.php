@@ -1,5 +1,6 @@
 <?php
 require_once "User/COMPOSANTS.php";
+require_once "Admin/controllers/Recette_controller.php";
 class AdminDashboard extends COMPOSANTS{
     public function header(){?>
         <!DOCTYPE html>
@@ -181,12 +182,12 @@ class AdminDashboard extends COMPOSANTS{
                         <table width="100%" style="text-align:center;margin:auto">
                             <thead>
                                 <tr>
-                                    <th>#notation</th>
+                                  <th>#ID</th>
                                     <th><span class="las la-sort"></span> Catég</th>
                                     <th><span class="las la-sort"></span> Titre</th>
                                     <th><span class=""></span> Image</th>
                                     <th><span class=""></span> Vidéo</th>
-                                    <th><span class="las la-sort"></span> Desc</th>
+                                    <th ><span  class="las la-sort"></span> Desc</th>
                                     <th><span class="las la-sort"></span> Saison</th>
                                     <th><span class="las la-sort"></span> Fete</th>
                                     <th><span class="las la-sort"></span> TPrep</th>
@@ -200,184 +201,82 @@ class AdminDashboard extends COMPOSANTS{
                                 </tr>
                             </thead>
                             <tbody>
+                            <?php
+                            $controller = new Recette_controller();
+                            $recettes = $controller->getRecettes();
+                            foreach ($recettes as $row) {
+                            ?>
+                                <tr>
+                                   <td><?php echo $row['ID'] ?></td>
 
-                                <tr>
-                                    <td>5</td>
                                     <td>
-                                        Plats
+                                    <?php echo $row['categorie'] ?>
                                     </td>
                                     <td>
-                                        le titre ici
+                                    <?php echo $row['titre'] ?>
                                     </td>
                                     <td>
-                                        image
+                                    <?php echo $row['image'] ?>
                                     </td>
                                     <td>
-                                        video
+                                    <?php echo $row['video'] ?>
+                                    </td>
+                                    <td style="width:120px">
+                                 <p style=" 
+                                 display: -webkit-box;
+                                 -webkit-line-clamp:4;
+                                 -webkit-box-orient:vertical;
+                                 overflow: hidden;" >description escripti ond escr ipti onde scr ipti onde scrip tionde script iondesc ription descriptio ndescript iond escript  ionde script iondes crip ti onde scrip tion</p>
                                     </td>
                                     <td>
-                                        description
-                                    </td>
-                                    
-                                    <td>
-                                        saison
-                                    </td>
-                                    
-                                    <td>
-                                        fete
+                                    <?php echo $row['saison'] ?>
                                     </td>
                                     
                                     <td>
-                                       60
+                                    <?php echo $row['fete'] ?>
                                     </td>
                                     
                                     <td>
-                                        60
+                                    <?php echo $row['temps_preparation'] ?>
                                     </td>
                                     
                                     <td>
-                                        30
+                                    <?php echo $row['temps_repos'] ?>
                                     </td>
                                     
                                     <td>
-                                        150
+                                    <?php echo $row['temps_cuisson'] ?>
                                     </td>
                                     
                                     <td>
-                                        facile
+                                    <?php echo $row['calories'] ?>
                                     </td>
                                     
                                     <td>
-                                       non
+                                    <?php echo $row['difficulte'] ?>
                                     </td>
                                     
-                                   
+                                    <td>
+                                    <?php echo $row['valide'] ?>
+                                    </td>
+
                                     <td>
                                         <div class="actions">
                                         <span class="las la-check-circle"></span>
                                             <span class="las la-pencil-alt"></span>
-                                            <span class="las la-trash"></span>
+                                           <span class="las la-trash"></span>
+                                <form method="post" action="<?php
+                                 $controller = new Recette_controller();
+                                 $controller->deleteRecettes(); ?>">
+                                <input type="text" name="id" value="<?php echo $row['ID'] ?>" hidden>
+                                    <input type="submit" name="supprimer" value="delete">
+                                </form>
+                                
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>
-                                        Plats
-                                    </td>
-                                    <td>
-                                        le titre ici
-                                    </td>
-                                    <td>
-                                        image
-                                    </td>
-                                    <td>
-                                        video
-                                    </td>
-                                    <td>
-                                        description
-                                    </td>
-                                    
-                                    <td>
-                                        saison
-                                    </td>
-                                    
-                                    <td>
-                                        fete
-                                    </td>
-                                    
-                                    <td>
-                                       60
-                                    </td>
-                                    
-                                    <td>
-                                        60
-                                    </td>
-                                    
-                                    <td>
-                                        30
-                                    </td>
-                                    
-                                    <td>
-                                        150
-                                    </td>
-                                    
-                                    <td>
-                                        facile
-                                    </td>
-                                    
-                                    <td>
-                                       non
-                                    </td>
-                                    
-                                   
-                                    <td>
-                                        <div class="actions">
-                                        <span class="las la-check-circle"></span>
-                                            <span class="las la-pencil-alt"></span>
-                                            <span class="las la-trash"></span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>
-                                        Plats
-                                    </td>
-                                    <td>
-                                        le titre ici
-                                    </td>
-                                    <td>
-                                        image
-                                    </td>
-                                    <td>
-                                        video
-                                    </td>
-                                    <td>
-                                        description
-                                    </td>
-                                    
-                                    <td>
-                                        saison
-                                    </td>
-                                    
-                                    <td>
-                                        fete
-                                    </td>
-                                    
-                                    <td>
-                                       60
-                                    </td>
-                                    
-                                    <td>
-                                        60
-                                    </td>
-                                    
-                                    <td>
-                                        30
-                                    </td>
-                                    
-                                    <td>
-                                        150
-                                    </td>
-                                    
-                                    <td>
-                                        facile
-                                    </td>
-                                    
-                                    <td>
-                                       non
-                                    </td>
-                                    
-                                   
-                                    <td>
-                                        <div class="actions">
-                                        <span class="las la-check-circle"></span>
-                                            <span class="las la-pencil-alt"></span>
-                                            <span class="las la-trash"></span>
-                                        </div>
-                                    </td>
-                                </tr>
+ 
+                                <?php  }  ?>
                                 
                             </tbody>
                         </table>
