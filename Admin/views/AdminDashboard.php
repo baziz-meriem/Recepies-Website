@@ -126,28 +126,44 @@ class AdminDashboard extends COMPOSANTS{
                     <li>
                        <a href="" class="active">
                             <span class="las la-home"></span>
-                            <small>Tableau de bord</small>
+                            <small style="
+                            font-size: 15px;
+                            font-weight: 500;
+                            font-family: 'Merienda', cursive;
+                            text-transform:capitalize;">Tableau de bord</small>
                         </a>
                     </li>
 
                     <li>
                        <a href="">
                             <span class="las la-clipboard-list"></span>
-                            <small>Gesion nutrition</small>
+                            <small style="
+                            font-size: 15px;
+                            font-weight: 500;
+                            font-family: 'Merienda', cursive;
+                            text-transform:capitalize;">Gesion nutrition</small>
                         </a>
                     </li>
 
                     <li>
                        <a href="">
                             <span class="las la-tasks"></span>
-                            <small>Gestion recettes</small>
+                            <small style="
+                            font-size: 15px;
+                            font-weight: 500;
+                            font-family: 'Merienda', cursive;
+                            text-transform:capitalize;">Gestion recettes</small>
                         </a>
                     </li>
                     
                     <li>
                        <a href="">
                             <span class="las la-clipboard-list"></span>
-                            <small>Gesion news</small>
+                            <small style="
+                            font-size: 15px;
+                            font-weight: 500;
+                            font-family: 'Merienda', cursive;
+                            text-transform:capitalize;">Gesion news</small>
                         </a>
                     </li>
 
@@ -163,17 +179,38 @@ class AdminDashboard extends COMPOSANTS{
 
                     <div class="record-header"  style="margin:0 2rem 0 2rem">
                         <div class="add">
-                            <span>Entries</span>
-                            <select name="" id="">
-                                <option value="">ID</option>
-                            </select>
-                            <button>Add record</button>
+                            <button style="background-color:#F58B00;margin:1rem"><a href="./index.php?page=ajout">Ajouter</a></button>
+                            <button >modifier</button>
                         </div>
 
                         <div class="browse">
-                           <input type="search" placeholder="Search" class="record-search">
+                            <select name="" id="" style="width:7rem">
+                                <option value="" hidden>Catégorie</option>
+                                <option value="plats">Plats</option>
+                                <option value="entrees">Entrées</option>
+                                <option value="desserts">Désserts</option>
+                                <option value="boissons">Boissons</option>
+
+                            </select>
                             <select name="" id="">
-                                <option value="">Status</option>
+                                <option value="" hidden>Notation</option>
+                                <option value="1">1 étoile</option>
+                                <option value="2">2 étoiles</option>
+                                <option value="3">3 étoiles</option>
+                                <option value="4">4 étoiles</option>
+                                <option value="5">5 étoiles</option>
+                            </select>
+                            <select name="" id="">
+                                <option value="" hidden>Saison</option>
+                                <option value="ete">été</option>
+                                <option value="printemps">Printemps</option>
+                                <option value="hiver">Hiver</option>
+                                <option value="automne">Automne</option>
+
+
+                            </select>
+                            <select name="" id="">
+                                <option value="">Fete</option>
                             </select>
                         </div>
                     </div>
@@ -183,8 +220,10 @@ class AdminDashboard extends COMPOSANTS{
                             <thead>
                                 <tr>
                                   <th>#ID</th>
+
                                     <th><span class="las la-sort"></span> Catég</th>
                                     <th><span class="las la-sort"></span> Titre</th>
+                                    
                                     <th><span class=""></span> Image</th>
                                     <th><span class=""></span> Vidéo</th>
                                     <th ><span  class="las la-sort"></span> Desc</th>
@@ -267,14 +306,9 @@ class AdminDashboard extends COMPOSANTS{
                                             $controller = new Recette_controller();
                                             $controller->validerRecette(); ?>">
                                             <input type="text" name="id" value="<?php echo $row['ID'] ?>" hidden>
-                                                <button class="btn"><input  type="submit" name="valider" value="valider" ><i class="las la-pencil-alt"></i></button>
+                                                <button class="icon_button"><input  type="submit" name="valider" value="valider" ><i class="las la-pencil-alt"></i></button>
                                             </form>
-                                           <form   action="<?php
-                                            $controller = new Recette_controller();
-                                            $controller->deleteRecettes(); ?>">
-                                            <input type="text" name="id" value="<?php echo $row['ID'] ?>" hidden>
-                                                <button class="btn"><input  type="submit" name="modifier" value="modifier" ><i class="las la-pencil-alt"></i></button>
-                                            </form>
+
                                            <form  method="post" action="<?php
                                             $controller = new Recette_controller();
                                             $controller->deleteRecettes(); ?>">

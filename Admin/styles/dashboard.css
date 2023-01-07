@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;500;600&display=swap');
+
 
 :root {
     --main-color: #9bae14 ;
@@ -6,14 +6,6 @@
     --text-grey:  #333;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-    list-style-type: none;
-    box-sizing: border-box;
-    font-family: 'Merriweather', sans-serif;
-}
 
 #menu-toggle {
     display: none;
@@ -116,7 +108,12 @@
 
 .side-menu a span, .side-menu a small {
     color:#333;
+    font-size: 15px;
+    font-weight: 400;
+    font-family: 'Merienda', cursive;
+    text-transform:capitalize;
 }
+
 
 #menu-toggle:checked ~ .sidebar {
     width: 60px;

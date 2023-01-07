@@ -2,6 +2,8 @@
 
 session_start();
 require_once './Admin/views/AdminDashboard.php';
+require_once './Admin/views/AjoutRecette.php';
+
 
 
 require_once './User/Accueil.php';
@@ -25,6 +27,10 @@ if(strpos($fulUrl,"page=recettes") == true){
     $view->afficher();
 }else if(strpos($fulUrl,"page=adminDashboard")== true){
     $view = new adminDashboard();
+    $view->afficher();
+
+} else if(strpos($fulUrl,"page=ajout")== true){
+    $view = new AjoutRecette();
     $view->afficher();
 } 
 else if(strpos($fulUrl,"page=fete")== true){

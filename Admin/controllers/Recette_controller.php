@@ -28,6 +28,9 @@ class Recette_controller {
             $data=$model->validerRecette($id);
         }
     }
+    public function insererRecette(){
+        
+    }
 }
 
 
