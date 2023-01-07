@@ -31,7 +31,45 @@ class Recette_model {
         $auth-> disconnect($conn);
         return $result;
     }
-    
+    public function updateRecette($id,$categorie,$titre,$image,$video,$description,$saison,
+     $temps_preparation,$temps_cuisson,$temps_repos, $calories,$difficulte){
+        try{  $auth = new AUTH_model();
+            $conn=$auth->connectDB($this->host,$this->name,$this->password,$this->database);
+  
+            $sql = 'UPDATE recettes SET categorie=:categorie,titre=:titre,
+            image=:image,video=:video,description=:description,
+            temps_preparation=:temps_preparation,temps_cuisson=:temps_cuisson,temps_repos=:temps_repos,
+            calories=:calories,saison=:saison,difficulte=:difficulte WHERE ID = :id ORDER BY ID ASC';
+            $statement = $conn->prepare($sql);
+            $data = [
+                ':categorie'=>$categorie,
+                ':titre'=>$titre,
+                ':image'=>$image,
+                ':video'=>$video,
+                ':description'=>$description,
+                ':temps_preparation'=>$temps_preparation,
+                ':temps_cuisson'=>$temps_cuisson,
+                ':temps_repos'=>$temps_repos,
+                ':calories'=>$calories,
+                ':saison'=>$saison,
+                ':difficulte'=>$difficulte,
+                ':id'=>$id,
+            ];
+            $query_execute = $statement->execute($data);
+            $auth-> disconnect($conn);
+            if($query_execute){
+                $_SESSION['message'] = "Mise a jour des données Réussi";
+                exit(0);
+            }else{
+                $_SESSION['message'] = "Mise a jour des données NON Réussi";
+                exit(0);
+            }
+            return true;}
+            catch(PDOException $e){
+                echo $e->getMessage();
+                return false;
+            }
+    }
     public function deleteRecettes($id){
       try{  $auth = new AUTH_model();
         $conn=$auth->connectDB($this->host,$this->name,$this->password,$this->database);
@@ -61,9 +99,7 @@ class Recette_model {
               return false;
           }
       }
-    public function updateRecette($id){
 
-    }
       public function insererRecette($categorie,$titre,$image,$video,$description,$saison,$fete, 
       $temps_preparation,$temps_cuisson,$temps_repos, $calories,$difficulte){
         try{  $auth = new AUTH_model();

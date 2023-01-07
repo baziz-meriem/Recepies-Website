@@ -35,14 +35,14 @@ class AjoutRecette extends AdminDashboard
     { ?>
      
             <div class="container" style="margin:auto">
-           
-                <h1 class="form_title">Ajouter une recette</h1>
+            <?php  if(isset($_GET['id'])){ echo '<h1 class="form_title">Modifier une recette existante</h1>';}else echo '<h1 class="form_title">Ajouter une nouvelle recette</h1>'  ?>
+                
                 <?php
                     $controller = new Recette_controller();
-                    $recette=$controller->updateRecette();
+                    $recette=$controller->getRecette();
                 ?>
                 <form method="post" action="<?php $controller = new Recette_controller();
-                                                   $data= $controller->insererRecette(); ?>">
+                                                  if(isset($_GET['id'])){ $controller->updateRecette();}else $controller->insererRecette(); ?>">
                     <div class="form ">
                         <div class="fields">
 
@@ -67,7 +67,7 @@ class AjoutRecette extends AdminDashboard
                             </div>
                             <div class="input-field">
                                 <label>Vidéo</label>
-                                <input type="text" name="video" value="<?php echo $recette['video']?>" placeholder="Entrer le nom de la video" required>
+                                <input type="text" name="video" value="<?php echo $recette['video']?>" placeholder="Entrer le nom de la video" >
                             </div>
                             <div class="input-field">
                                 <label>Saison</label>
