@@ -11,7 +11,7 @@
     "start:api": "npm run start:prod -w backend",
     "start:web": "npm run preview -w frontend",
     "db:seed": "docker compose exec -T mysql mysql -uroot -proot < db/seed.sql",
-    "db:seed:remote": "node scripts/seed-mysql.mjs"
+    "db:seed:remote": "node --env-file=backend/.env scripts/seed-mysql.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

@@ -1,5 +1,7 @@
 /**
- * Apply db/seed.sql to MySQL (demo Aiven defaults; override with DB_* env vars).
+ * Apply db/seed.sql to MySQL.
+ * Run via `npm run db:seed:remote` — loads `backend/.env` (Node 20+).
+ * Set DB_PASSWORD to the current value from the Aiven console (Service URI).
  */
 import fs from 'fs';
 import path from 'path';
@@ -8,12 +10,17 @@ import mysql from 'mysql2/promise';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const DEMO_PASSWORD = 'AVNS_j1wwEWtH5PTEq7-MkfW';
-
 const host = process.env.DB_HOST ?? 'mysql-2b338b70-esi-cd05.a.aivencloud.com';
 const port = Number(process.env.DB_PORT ?? 14095);
 const user = process.env.DB_USER ?? 'avnadmin';
-const password = process.env.DB_PASSWORD?.trim() || DEMO_PASSWORD;
+const password = process.env.DB_PASSWORD?.trim();
+
+if (!password) {
+  console.error(
+    'Missing DB_PASSWORD. Copy the current password from Aiven → Service URI, put it in backend/.env, then run: npm run db:seed:remote',
+  );
+  process.exit(1);
+}
 
 const sslExplicit = process.env.DB_SSL;
 const useSsl =
