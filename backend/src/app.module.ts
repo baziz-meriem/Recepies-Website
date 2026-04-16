@@ -11,13 +11,14 @@ import { RecipesModule } from './recipes/recipes.module';
 import { UploadsModule } from './uploads/uploads.module';
 
 /**
- * Demo defaults (Aiven MySQL). Override with `DB_*` env vars for local Docker, etc.
- * Never commit `DB_PASSWORD`; set it in Render or `backend/.env`.
+ * Demo defaults (Aiven MySQL). Env vars override when set.
+ * Run `npm run db:seed:remote` once so database `recettes` exists before the API starts.
  */
 const DEMO_DB_HOST = 'mysql-2b338b70-esi-cd05.a.aivencloud.com';
 const DEMO_DB_PORT = 14095;
 const DEMO_DB_USER = 'avnadmin';
-const DEMO_DB_NAME = 'defaultdb';
+const DEMO_DB_NAME = 'recettes';
+const DEMO_DB_PASSWORD = 'AVNS_j1wwEWtH5PTEq7-MkfW';
 
 /** Resolve .env when dev runs from repo root (`npm run dev`) or from `backend/`. */
 const envFilePaths = [
@@ -77,7 +78,8 @@ function mysqlSslOptions(config: ConfigService): Record<string, unknown> | undef
           host,
           port: Number(config.get('DB_PORT', DEMO_DB_PORT)),
           username: config.get<string>('DB_USER', DEMO_DB_USER),
-          password: config.get<string>('DB_PASSWORD', ''),
+          password:
+            config.get<string>('DB_PASSWORD')?.trim() || DEMO_DB_PASSWORD,
           database: config.get<string>('DB_NAME', DEMO_DB_NAME),
           autoLoadEntities: true,
           synchronize: false,
