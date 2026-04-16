@@ -164,10 +164,19 @@ The API serves uploaded/static files from the `assets/` directory resolved relat
 
 ---
 
+## Deploying the API on Render
+
+Render does **not** ship your local `backend/.env`. Set at least **`DB_PASSWORD`** (same as in the Aiven connection URI) under **Environment**. Without it, MySQL reports `using password: NO` and the deploy fails.
+
+Also set **`DB_NAME=recettes`** after you have run the remote seed, and **`JWT_SECRET`** if you want a fixed value (otherwise the app uses its built-in dev default).
+
+---
+
 ## Troubleshooting
 
 | Symptom | What to check |
 |---------|----------------|
+| **Render: `Access denied` / `using password: NO`** | Add **`DB_PASSWORD`** in Render → Environment (copy from Aiven). `.env` is only on your machine. |
 | **Blank recipe sections / errors on home** | API not running — open `/api/health`. MySQL down or wrong `DB_*` in `backend/.env`. |
 | **`ECONNREFUSED` on DB** | Start MySQL (`docker compose up -d`) and credentials in `.env`. |
 | **Empty lists but API returns 200** | Run `npm run db:seed` after MySQL is up. |
