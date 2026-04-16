@@ -1,10 +1,13 @@
 node_modules
 dist
-apps/api/dist
-apps/web/dist
+backend/dist
+frontend/dist
 .env
 .env.local
 
 # User-uploaded recipe images (keep directory via .gitkeep)
 assets/img/uploads/*
 !assets/img/uploads/.gitkeep
+
+assets/videos/uploads/*
+!assets/videos/uploads/.gitkeep
