@@ -9,6 +9,8 @@ export type Recette = {
   id: number;
   categorie?: string;
   titre: string;
+  /** 1 = visible on the public site; 0 = draft until validated in admin. */
+  valide?: number;
   image?: string;
   video?: string;
   description?: string;

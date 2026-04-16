@@ -1,20 +1,24 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { existsSync } from 'fs';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { NewsModule } from './news/news.module';
 import { NutritionModule } from './nutrition/nutrition.module';
 import { HealthController } from './health.controller';
 import { RecipesModule } from './recipes/recipes.module';
+import { UploadsModule } from './uploads/uploads.module';
 
-const assetsRoot = join(__dirname, '..', '..', '..', 'assets');
+/** Resolve .env when dev runs from repo root (`npm run dev`) or from `apps/api`. */
+const envFilePaths = [
+  join(process.cwd(), 'apps', 'api', '.env'),
+  join(process.cwd(), '.env'),
+  join(__dirname, '..', '.env'),
+];
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: envFilePaths }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -31,16 +35,9 @@ const assetsRoot = join(__dirname, '..', '..', '..', 'assets');
         logging: config.get<string>('DB_LOGGING') === 'true',
       }),
     }),
-    ...(existsSync(assetsRoot)
-      ? [
-          ServeStaticModule.forRoot({
-            rootPath: assetsRoot,
-            serveRoot: '/static/',
-          }),
-        ]
-      : []),
     AuthModule,
     RecipesModule,
+    UploadsModule,
     NewsModule,
     NutritionModule,
   ],

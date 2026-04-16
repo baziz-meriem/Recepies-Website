@@ -3,12 +3,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Page.css';
 
+/** Must match `db/seed.sql` — run `npm run db:seed` so this account exists. */
+const DEMO_PRENOM = 'Utilisateur';
+const DEMO_NOM = 'Démo';
+const DEMO_DISPLAY_NAME = `${DEMO_PRENOM} ${DEMO_NOM}`;
+const DEMO_MAIL = 'demo@example.com';
+const DEMO_PASSWORD = 'demo123';
+
 export function LoginPage() {
   const { login, register } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<'login' | 'register'>('login');
-  const [mail, setMail] = useState('');
-  const [motDePasse, setMotDePasse] = useState('');
+  const [mail, setMail] = useState(DEMO_MAIL);
+  const [motDePasse, setMotDePasse] = useState(DEMO_PASSWORD);
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
   const [sexe, setSexe] = useState<'homme' | 'femme'>('homme');
@@ -42,26 +49,49 @@ export function LoginPage() {
   }
 
   return (
-    <div className="page">
+    <div className="page page--inner">
       <div className="auth-card">
         <h1>{mode === 'login' ? 'Connexion' : 'Inscription'}</h1>
-        <div style={{ marginBottom: '1rem' }}>
+        <div className="auth-tabs">
           <button
             type="button"
-            className={mode === 'login' ? 'cta' : 'btn-sm'}
-            onClick={() => setMode('login')}
-            style={{ marginRight: 8 }}
+            className={mode === 'login' ? 'active' : ''}
+            onClick={() => {
+              setMode('login');
+              setMail(DEMO_MAIL);
+              setMotDePasse(DEMO_PASSWORD);
+              setErr(null);
+              setOk(null);
+            }}
           >
             Connexion
           </button>
           <button
             type="button"
-            className={mode === 'register' ? 'cta' : 'btn-sm'}
-            onClick={() => setMode('register')}
+            className={mode === 'register' ? 'active' : ''}
+            onClick={() => {
+              setMode('register');
+              setMail('');
+              setMotDePasse('');
+              setErr(null);
+              setOk(null);
+            }}
           >
             Inscription
           </button>
         </div>
+        {mode === 'login' && (
+          <p className="auth-demo-hint">
+            <strong>Compte de test :</strong> {DEMO_DISPLAY_NAME}
+            <br />
+            <code className="auth-demo-hint__code">{DEMO_MAIL}</code> · mot de passe{' '}
+            <code className="auth-demo-hint__code">{DEMO_PASSWORD}</code>
+            <span className="auth-demo-hint__note">
+              {' '}
+              (prérempli — exécutez <code>npm run db:seed</code> si la connexion échoue.)
+            </span>
+          </p>
+        )}
         <form onSubmit={onSubmit}>
           {mode === 'register' && (
             <>
@@ -131,11 +161,11 @@ export function LoginPage() {
           </div>
           {err && <p className="form-error">{err}</p>}
           {ok && <p className="form-success">{ok}</p>}
-          <button type="submit" className="cta" style={{ border: 'none' }}>
+          <button type="submit" className="cta auth-submit">
             {mode === 'login' ? 'Se connecter' : "S'inscrire"}
           </button>
         </form>
-        <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>
+        <p className="auth-footer-link">
           <Link to="/">Retour à l’accueil</Link>
         </p>
       </div>

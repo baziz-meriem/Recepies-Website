@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { apiGet } from '../api/client';
+import { mediaUrl } from '../utils/mediaUrl';
 import './Page.css';
 
 type NewsArticle = {
@@ -33,66 +34,52 @@ export function NewsDetailPage() {
   }, [id]);
 
   if (err) {
-    return <p className="form-error">{err}</p>;
+    return (
+      <div className="page page--inner">
+        <p className="form-error">{err}</p>
+      </div>
+    );
   }
   if (!data) {
-    return <p>Chargement…</p>;
+    return (
+      <div className="page page--inner">
+        <p className="page-header__lead">Chargement…</p>
+      </div>
+    );
   }
 
   const { news, details } = data;
-  const videoSrc = news.video?.startsWith('http')
-    ? news.video
-    : news.video
-      ? `/static/img/${news.video}`
-      : '';
+  const videoSrc = news.video ? mediaUrl(news.video) : '';
 
   return (
-    <div className="page">
-      <Link to="/news">← News</Link>
+    <div className="page page--inner article-body">
+      <Link to="/news" className="back-link">
+        ← Toutes les actualités
+      </Link>
+
       {news.image && (
         <div
+          className="article-hero"
           style={{
-            height: 200,
-            borderRadius: 10,
-            margin: '1rem 0',
-            background: `url(/static/img/${news.image}) center/cover`,
+            backgroundImage: `url(${mediaUrl(news.image)})`,
           }}
         />
       )}
-      <h1>{news.titre}</h1>
+
+      <h1 className="article-body__title">{news.titre}</h1>
+
       {videoSrc && (
-        <div style={{ marginBottom: '1rem', maxWidth: 720 }}>
-          <div
-            style={{
-              position: 'relative',
-              paddingBottom: '56.25%',
-              height: 0,
-            }}
-          >
-            <iframe
-              title="news-video"
-              src={videoSrc}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                border: 0,
-              }}
-            />
-          </div>
+        <div className="video-embed">
+          <iframe title="news-video" src={videoSrc} />
         </div>
       )}
+
       {details.map((d) => (
-        <article key={d.id} style={{ marginBottom: '1.5rem' }}>
-          <h2 style={{ fontSize: '1.1rem' }}>{d.titre}</h2>
+        <article key={d.id} className="article-section">
+          <h2>{d.titre}</h2>
           <p>{d.description}</p>
           {d.image && (
-            <img
-              src={`/static/img/${d.image}`}
-              alt=""
-              style={{ width: '100%', borderRadius: 8 }}
-            />
+            <img className="step-image" src={mediaUrl(d.image)} alt="" />
           )}
         </article>
       ))}

@@ -1,9 +1,18 @@
+import { mediaUrl } from '../utils/mediaUrl';
+
 const base = import.meta.env.VITE_API_URL ?? '';
 
-export async function apiGet<T>(path: string): Promise<T> {
+export async function apiGet<T>(
+  path: string,
+  token?: string | null,
+): Promise<T> {
+  const headers: Record<string, string> = { Accept: 'application/json' };
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
   const res = await fetch(`${base}${path}`, {
     credentials: 'include',
-    headers: { Accept: 'application/json' },
+    headers,
   });
   if (!res.ok) {
     const err = await res.text();
@@ -75,8 +84,55 @@ export async function apiDelete(path: string, token: string): Promise<void> {
   }
 }
 
+export type UploadImageResponse = { path: string; url: string };
+
+/** Upload an image (JPEG, PNG, WebP, GIF, max ~5 Mo). Requires JWT. */
+export async function apiUploadImage(
+  file: File,
+  token: string,
+): Promise<UploadImageResponse> {
+  const fd = new FormData();
+  fd.append('file', file);
+  const res = await fetch(`${base}/api/uploads/image`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: fd,
+  });
+  if (!res.ok) {
+    let msg = res.statusText;
+    try {
+      const j = (await res.json()) as { message?: string | string[] };
+      if (typeof j.message === 'string') msg = j.message;
+      else if (Array.isArray(j.message)) msg = j.message.join(', ');
+    } catch {
+      try {
+        msg = await res.text();
+      } catch {
+        /* ignore */
+      }
+    }
+    throw new Error(msg);
+  }
+  return res.json() as Promise<UploadImageResponse>;
+}
+
+/** Absolute URL when `VITE_API_URL` is set (split deploy); otherwise same-origin `/static/...`. */
 export function staticUrl(path: string): string {
-  if (!path) return '';
-  if (path.startsWith('http')) return path;
-  return `${base}/static/img/${path}`;
+  const m = mediaUrl(path);
+  if (!m || /^https?:\/\//i.test(m)) return m;
+  const b = base.replace(/\/$/, '');
+  return b ? `${b}${m}` : m;
+}
+
+/** URL finale pour les vignettes recettes (externe inchangé, sinon `/static/...` avec base API si besoin). */
+export function recipeImageUrl(image: string | undefined | null): string {
+  const m = mediaUrl(image);
+  const path = m || '/static/img/placeholder-recipe.svg';
+  if (/^https?:\/\//i.test(path)) return path;
+  const b = base.replace(/\/$/, '');
+  return b ? `${b}${path}` : path;
 }

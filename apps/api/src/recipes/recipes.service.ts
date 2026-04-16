@@ -8,6 +8,9 @@ import { CreateRecetteDto } from './dto/create-recette.dto';
 import { FilterRecipesDto } from './dto/filter-recipes.dto';
 import { UpdateRecetteDto } from './dto/update-recette.dto';
 
+/** Recettes visibles sur le site public : brouillon explicite = 0, sinon publié (1 ou NULL hérité). */
+const SQL_PUBLISHED = '(r.valide IS NULL OR r.valide = 1)';
+
 @Injectable()
 export class RecipesService {
   constructor(
@@ -19,37 +22,64 @@ export class RecipesService {
     private readonly saisons: Repository<Saison>,
   ) {}
 
-  findAllOrdered() {
-    return this.recettes.find({
-      order: { tempsPreparation: 'ASC', calories: 'ASC' },
-    });
+  /** Published recipes only (visible on the public site). */
+  findAllPublic() {
+    return this.recettes
+      .createQueryBuilder('r')
+      .where(SQL_PUBLISHED)
+      .orderBy('r.tempsPreparation', 'ASC')
+      .addOrderBy('r.calories', 'ASC')
+      .getMany();
+  }
+
+  /** All recipes for the admin dashboard (drafts + published). */
+  findAllForAdmin() {
+    return this.recettes.find({ order: { id: 'DESC' } });
   }
 
   async meta() {
-    const [categories, notations, fetes, saisonRows] = await Promise.all([
-      this.recettes
-        .createQueryBuilder('r')
-        .select('r.categorie', 'categorie')
-        .distinct(true)
-        .where("r.categorie IS NOT NULL AND r.categorie != ''")
-        .orderBy('r.id', 'ASC')
-        .getRawMany(),
-      this.recettes
-        .createQueryBuilder('r')
-        .select('r.notation', 'notation')
-        .distinct(true)
-        .where("r.notation IS NOT NULL AND r.notation != ''")
-        .orderBy('r.id', 'ASC')
-        .getRawMany(),
-      this.recettes
-        .createQueryBuilder('r')
-        .select('r.fete', 'fete')
-        .distinct(true)
-        .where("r.fete IS NOT NULL AND r.fete != ''")
-        .orderBy('r.id', 'ASC')
-        .getRawMany(),
-      this.saisons.find({ order: { id: 'DESC' } }),
-    ]);
+    const [categories, notations, fetes, saisonRows, saisonFromRecipes] =
+      await Promise.all([
+        this.recettes
+          .createQueryBuilder('r')
+          .select('r.categorie', 'categorie')
+          .distinct(true)
+          .where("r.categorie IS NOT NULL AND r.categorie != ''")
+          .andWhere(SQL_PUBLISHED)
+          .orderBy('r.id', 'ASC')
+          .getRawMany(),
+        this.recettes
+          .createQueryBuilder('r')
+          .select('r.notation', 'notation')
+          .distinct(true)
+          .where("r.notation IS NOT NULL AND r.notation != ''")
+          .andWhere(SQL_PUBLISHED)
+          .orderBy('r.id', 'ASC')
+          .getRawMany(),
+        this.recettes
+          .createQueryBuilder('r')
+          .select('r.fete', 'fete')
+          .distinct(true)
+          .where("r.fete IS NOT NULL AND r.fete != ''")
+          .andWhere(SQL_PUBLISHED)
+          .orderBy('r.id', 'ASC')
+          .getRawMany(),
+        this.saisons.find({ order: { id: 'ASC' } }),
+        this.recettes
+          .createQueryBuilder('r')
+          .select('r.saison', 'saison')
+          .distinct(true)
+          .where("r.saison IS NOT NULL AND r.saison != ''")
+          .andWhere(SQL_PUBLISHED)
+          .orderBy('r.id', 'ASC')
+          .getRawMany(),
+      ]);
+
+    const saisonsTable = saisonRows.map((s) => s.nom).filter(Boolean);
+    const saisonsRecettes = saisonFromRecipes
+      .map((x: { saison: string }) => x.saison)
+      .filter(Boolean);
+    const saisonsMerged = [...new Set([...saisonsTable, ...saisonsRecettes])].sort();
 
     return {
       categories: categories
@@ -59,7 +89,7 @@ export class RecipesService {
         .map((n: { notation: string }) => n.notation)
         .filter(Boolean),
       fetes: fetes.map((f: { fete: string }) => f.fete).filter(Boolean),
-      saisons: saisonRows.map((s) => s.nom).filter(Boolean),
+      saisons: saisonsMerged,
     };
   }
 
@@ -69,22 +99,26 @@ export class RecipesService {
       .select(`r.${column}`, column)
       .distinct(true)
       .where(`r.${column} IS NOT NULL AND r.${column} != ''`)
+      .andWhere(SQL_PUBLISHED)
       .orderBy('r.id', 'ASC')
       .getRawMany();
   }
 
   byHomeCategory(cat: 'plats' | 'entrees' | 'desserts' | 'boissons') {
-    return this.recettes.find({
-      where: { categorie: cat },
-      select: ['id', 'titre', 'description', 'image'],
-    });
+    return this.recettes
+      .createQueryBuilder('r')
+      .select(['r.id', 'r.titre', 'r.description', 'r.image'])
+      .where('r.categorie = :cat', { cat })
+      .andWhere(SQL_PUBLISHED)
+      .orderBy('r.id', 'ASC')
+      .getMany();
   }
 
   private applyFilters(
     qb: SelectQueryBuilder<Recette>,
     dto: FilterRecipesDto,
   ) {
-    qb.where("r.titre IS NOT NULL AND r.titre != ''");
+    qb.where("r.titre IS NOT NULL AND r.titre != ''").andWhere(SQL_PUBLISHED);
     if (dto.categorie?.length) {
       qb.andWhere('r.categorie IN (:...categorie)', {
         categorie: dto.categorie,
@@ -101,23 +135,25 @@ export class RecipesService {
         notation: dto.notation,
       });
     }
-    if (dto.minimum_prep && dto.maximum_prep) {
-      qb.andWhere(
-        'CAST(r.tempsPreparation AS UNSIGNED) BETWEEN :minp AND :maxp',
-        {
-          minp: Number(dto.minimum_prep),
-          maxp: Number(dto.maximum_prep),
-        },
-      );
+    if (dto.minimum_prep) {
+      qb.andWhere('CAST(r.tempsPreparation AS UNSIGNED) >= :minp', {
+        minp: Number(dto.minimum_prep),
+      });
     }
-    if (dto.minimum_cuiss && dto.maximum_cuiss) {
-      qb.andWhere(
-        'CAST(r.tempsCuisson AS UNSIGNED) BETWEEN :minc AND :maxc',
-        {
-          minc: Number(dto.minimum_cuiss),
-          maxc: Number(dto.maximum_cuiss),
-        },
-      );
+    if (dto.maximum_prep) {
+      qb.andWhere('CAST(r.tempsPreparation AS UNSIGNED) <= :maxp', {
+        maxp: Number(dto.maximum_prep),
+      });
+    }
+    if (dto.minimum_cuiss) {
+      qb.andWhere('CAST(r.tempsCuisson AS UNSIGNED) >= :minc', {
+        minc: Number(dto.minimum_cuiss),
+      });
+    }
+    if (dto.maximum_cuiss) {
+      qb.andWhere('CAST(r.tempsCuisson AS UNSIGNED) <= :maxc', {
+        maxc: Number(dto.maximum_cuiss),
+      });
     }
     return qb;
   }
@@ -131,6 +167,11 @@ export class RecipesService {
   async findOneWithDetails(id: number) {
     const recette = await this.recettes.findOne({ where: { id } });
     if (!recette) {
+      throw new NotFoundException('Recette introuvable');
+    }
+    const published =
+      recette.valide == null || Number(recette.valide) === 1;
+    if (!published) {
       throw new NotFoundException('Recette introuvable');
     }
     const etapes = await this.etapes.find({
@@ -165,6 +206,7 @@ export class RecipesService {
       tempsRepos: dto.temps_repos,
       calories: dto.calories,
       difficulte: dto.difficulte,
+      valide: 0,
     });
     return this.recettes.save(row);
   }

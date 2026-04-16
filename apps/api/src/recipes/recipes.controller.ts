@@ -44,9 +44,15 @@ export class RecipesController {
     return this.recipes.filter(dto);
   }
 
+  @Get('admin')
+  @UseGuards(JwtAuthGuard)
+  findAllAdmin() {
+    return this.recipes.findAllForAdmin();
+  }
+
   @Get()
   findAll() {
-    return this.recipes.findAllOrdered();
+    return this.recipes.findAllPublic();
   }
 
   @Get(':id')

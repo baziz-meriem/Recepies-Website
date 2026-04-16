@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { apiGet } from '../api/client';
+import { RecipeImage } from '../components/RecipeImage';
+import { mediaUrl } from '../utils/mediaUrl';
 import type { Etape, Recette } from '../types';
 import './Page.css';
 
@@ -10,7 +12,24 @@ type Detail = {
   ingredients: string[];
 };
 
+type LocationState = { from?: string };
+
+function recipeBackTarget(state: unknown): { to: string; label: string } {
+  const from = (state as LocationState | null)?.from;
+  if (from === '/') {
+    return { to: '/', label: '← Retour à l’accueil' };
+  }
+  if (typeof from === 'string' && from.startsWith('/admin')) {
+    return { to: '/admin', label: '← Retour au tableau de bord' };
+  }
+  if (typeof from === 'string' && from.startsWith('/recettes')) {
+    return { to: from, label: '← Retour aux recettes' };
+  }
+  return { to: '/recettes', label: '← Retour aux recettes' };
+}
+
 export function RecipeDetailPage() {
+  const location = useLocation();
   const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<Detail | null>(null);
   const [err, setErr] = useState<string | null>(null);
@@ -23,17 +42,41 @@ export function RecipeDetailPage() {
   }, [id]);
 
   if (err) {
-    return <p className="form-error">{err}</p>;
+    return (
+      <div className="page page--inner">
+        <p className="form-error">{err}</p>
+        <p>
+          <Link to="/recettes" className="back-link">
+            ← Retour aux recettes
+          </Link>
+        </p>
+      </div>
+    );
   }
   if (!data) {
-    return <p>Chargement…</p>;
+    return (
+      <div className="page page--inner">
+        <p className="page-header__lead">Chargement de la recette…</p>
+      </div>
+    );
   }
 
   const { recette, etapes, ingredients } = data;
+  const back = recipeBackTarget(location.state);
 
   return (
-    <div className="page recipe-detail">
-      <Link to="/recettes">← Retour aux recettes</Link>
+    <div className="page page--inner recipe-detail">
+      <Link to={back.to} className="back-link">
+        {back.label}
+      </Link>
+      <div className="recipe-detail__cover-wrap">
+        <RecipeImage
+          image={recette.image}
+          alt=""
+          className="recipe-detail__cover"
+          loading="eager"
+        />
+      </div>
       <div className="recipe-detail-hero">
         <h1>{recette.titre}</h1>
         <p className="lead">{recette.description}</p>
@@ -47,51 +90,26 @@ export function RecipeDetailPage() {
       </div>
 
       {recette.video && (
-        <div
-          className="video-wrap"
-          style={{ marginBottom: '1.5rem', maxWidth: 720 }}
-        >
-          <div
-            style={{
-              position: 'relative',
-              paddingBottom: '56.25%',
-              height: 0,
-              overflow: 'hidden',
-              borderRadius: 8,
-            }}
-          >
-            <iframe
-              title="video"
-              src={
-                recette.video.startsWith('http')
-                  ? recette.video
-                  : `/static/img/${recette.video}`
-              }
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                border: 0,
-              }}
-            />
-          </div>
+        <div className="video-embed">
+          <iframe title="video" src={mediaUrl(recette.video)} />
         </div>
       )}
 
       <div className="detail-grid">
         <div className="steps">
-          <h2>Instructions</h2>
+          <h2>Préparation</h2>
+          <p className="steps-intro">
+            Étapes détaillées pour réussir la recette (temps et repos indiqués en haut de page).
+          </p>
           {etapes.map((e) => (
             <article key={e.id}>
               <h4>{e.titre}</h4>
               <p>{e.description}</p>
               {e.image && (
                 <img
-                  src={`/static/img/${e.image}`}
+                  className="step-image"
+                  src={mediaUrl(e.image)}
                   alt=""
-                  style={{ width: '100%', borderRadius: 8 }}
                 />
               )}
             </article>
