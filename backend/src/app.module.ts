@@ -27,19 +27,28 @@ const envFilePaths = [
 ];
 
 /**
- * Aiven (and some clouds) use a CA not in Node’s default store. Prefer
- * `DB_SSL_CA_PATH` to their downloaded `ca.pem`; without it, verification is
- * relaxed so the demo works (encryption still on).
+ * Aiven (and many clouds) use a CA not in Node’s default store.
+ * - Local Docker (`127.0.0.1` / `localhost`): no TLS options (plain MySQL).
+ * - Any other host: pass `ssl` explicitly so mysql2 does not use strict default
+ *   verification (fixes “self-signed certificate in certificate chain”).
+ * - Optional `DB_SSL_CA_PATH` to Aiven’s `ca.pem` for strict verify.
+ *
+ * If you set `DB_SSL=false` on Render while using Aiven, TLS was still
+ * negotiated but our `ssl` object was omitted — that caused the same error.
  */
 function mysqlSslOptions(config: ConfigService): Record<string, unknown> | undefined {
-  const host = config.get<string>('DB_HOST', DEMO_DB_HOST);
-  const sslFlag = config.get<string>('DB_SSL');
-  const useSsl =
-    sslFlag === 'true' ||
-    (sslFlag !== 'false' && host.includes('aivencloud.com'));
-  if (!useSsl) {
+  const raw = config.get<string>('DB_HOST');
+  const host = (raw && raw.trim() !== '' ? raw : DEMO_DB_HOST).trim();
+
+  const isLocal =
+    host === '127.0.0.1' ||
+    host === 'localhost' ||
+    host === '::1';
+
+  if (isLocal) {
     return undefined;
   }
+
   const caPath = config.get<string>('DB_SSL_CA_PATH');
   if (caPath && existsSync(caPath)) {
     return {
@@ -47,6 +56,7 @@ function mysqlSslOptions(config: ConfigService): Record<string, unknown> | undef
       ca: readFileSync(caPath),
     };
   }
+
   return {
     rejectUnauthorized: config.get<string>('DB_SSL_REJECT_UNAUTHORIZED') === 'true',
   };

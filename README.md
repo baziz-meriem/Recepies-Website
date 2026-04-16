@@ -173,6 +173,7 @@ The API serves uploaded/static files from the `assets/` directory resolved relat
 | **Empty lists but API returns 200** | Run `npm run db:seed` after MySQL is up. |
 | **Vercel site has no data** | Confirm `client.ts` points at a live API; check CORS and Render cold start. |
 | **Port 3000 already in use** | Stop the other process or set `PORT` in `backend/.env`. |
+| **Render: `self-signed certificate in certificate chain` (MySQL)** | Deploy the latest backend: non-local hosts get relaxed TLS unless `DB_SSL_CA_PATH` is set. Remove `DB_SSL=false` from Render if you copied Docker env — remote MySQL still uses TLS. |
 
 ---
 
