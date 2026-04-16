@@ -77,13 +77,28 @@ Use **`127.0.0.1`** for `DB_HOST` if Node resolves `localhost` to IPv6 (`::1`) w
 
 ### 4. Seed the database
 
-The seed script **drops and recreates** tables and loads sample data (French copy, demo recipes).
+The seed script **drops and recreates** tables and loads sample data (French copy, demo recipes). It creates the **`recettes`** database (`db/seed.sql`).
+
+**Local Docker MySQL:**
 
 ```bash
 npm run db:seed
 ```
 
 Requires the `mysql` service from `docker compose` to be running.
+
+**Remote MySQL (e.g. Aiven)** — run **once** from your machine, with the same password as in the cloud console:
+
+```bash
+export DB_PASSWORD='your-aiven-password'
+npm run db:seed:remote
+```
+
+Or with Node 20+: `node --env-file=backend/.env scripts/seed-mysql.mjs`
+
+After seeding, point the API at that data: set **`DB_NAME=recettes`** on Render (the seed uses the `recettes` database, not `defaultdb`).
+
+**Do not** add seeding to your Render **build** or **start** command: it would wipe data on every deploy.
 
 ### 5. Run frontend + backend together
 
@@ -94,9 +109,9 @@ npm run dev
 ```
 
 - **Web app:** [http://localhost:5173](http://localhost:5173)  
-- **API health:** [http://localhost:3000/api/health](http://localhost:3000/api/health) (expect `{"status":"ok"}`)
+- **API health (local backend):** [http://localhost:3000/api/health](http://localhost:3000/api/health) (expect `{"status":"ok"}`)
 
-The Vite dev server **proxies** `/api` and `/static` to `http://localhost:3000`, so you do **not** need `VITE_API_URL` for local development.
+The **frontend is configured for the demo** to call the deployed API at `https://recepies-website.onrender.com` (see `frontend/src/api/client.ts`). To exercise a **local** API instead, change that base URL or point it at `''` and rely on the Vite proxy in `frontend/vite.config.ts`.
 
 ---
 
@@ -108,7 +123,8 @@ The Vite dev server **proxies** `/api` and `/static` to `http://localhost:3000`,
 | `npm run build` | Production build: backend then frontend |
 | `npm run start:api` | Run compiled Nest API (`npm run start:prod -w backend`) |
 | `npm run start:web` | Preview the built frontend (`vite preview`) |
-| `npm run db:seed` | Apply `db/seed.sql` into MySQL via Docker |
+| `npm run db:seed` | Apply `db/seed.sql` via local Docker MySQL |
+| `npm run db:seed:remote` | Apply `db/seed.sql` using `DB_*` env (no Docker; for Aiven, etc.) |
 
 ### Run one workspace only
 
@@ -116,23 +132,15 @@ The Vite dev server **proxies** `/api` and `/static` to `http://localhost:3000`,
 # API only (watch mode)
 npm run start:dev -w backend
 
-# Frontend only (expects API on port 3000 for proxy)
+# Frontend only (by default still uses the demo Render API URL in client.ts)
 npm run dev -w frontend
 ```
 
 ---
 
-## Frontend environment (`frontend/`)
+## Frontend API URL (`frontend/`)
 
-Copy and adjust if needed:
-
-```bash
-cp frontend/.env.example frontend/.env.local
-```
-
-| Variable | When to set |
-|----------|-------------|
-| `VITE_API_URL` | **Production / split deploy:** base URL of your API, **no trailing slash** (e.g. `https://api.example.com`). Leave **unset** locally so Vite’s proxy handles `/api` and `/static`. |
+The demo app **hardcodes** the public API base in [`frontend/src/api/client.ts`](frontend/src/api/client.ts) (Render). You do **not** need `VITE_API_URL` for that setup.
 
 See [`frontend/vercel.json`](frontend/vercel.json) for SPA routing on Vercel.
 
@@ -140,8 +148,7 @@ See [`frontend/vercel.json`](frontend/vercel.json) for SPA routing on Vercel.
 
 1. Connect the repo and set **Root Directory** to `frontend`.
 2. Framework preset: **Vite**.
-3. Add **`VITE_API_URL`** in Vercel project settings with your public API origin.
-4. Ensure the **backend** enables CORS for your Vercel domain (`backend` uses `enableCors({ origin: true })` by default — tighten this in production if needed).
+3. Ensure the **backend** allows your Vercel origin in CORS (`backend` uses `enableCors({ origin: true })` by default — tighten this in production if needed).
 
 ---
 
@@ -150,7 +157,7 @@ See [`frontend/vercel.json`](frontend/vercel.json) for SPA routing on Vercel.
 ```bash
 npm run build
 npm run start:api          # serves API + /static from compiled backend
-npm run start:web            # optional: preview built SPA (configure API URL via env)
+npm run start:web            # optional: preview built SPA (uses API URL from client.ts)
 ```
 
 The API serves uploaded/static files from the `assets/` directory resolved relative to the repo (see `backend/src/assets-root.ts`).
@@ -164,7 +171,7 @@ The API serves uploaded/static files from the `assets/` directory resolved relat
 | **Blank recipe sections / errors on home** | API not running — open `/api/health`. MySQL down or wrong `DB_*` in `backend/.env`. |
 | **`ECONNREFUSED` on DB** | Start MySQL (`docker compose up -d`) and credentials in `.env`. |
 | **Empty lists but API returns 200** | Run `npm run db:seed` after MySQL is up. |
-| **Vercel site has no data** | Set `VITE_API_URL` to your deployed API; the static host does not provide `/api` by itself. |
+| **Vercel site has no data** | Confirm `client.ts` points at a live API; check CORS and Render cold start. |
 | **Port 3000 already in use** | Stop the other process or set `PORT` in `backend/.env`. |
 
 ---

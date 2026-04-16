@@ -1,6 +1,7 @@
 import { mediaUrl } from '../utils/mediaUrl';
 
-const base = import.meta.env.VITE_API_URL ?? '';
+/** Demo: deployed API (Render). No trailing slash. */
+const base = 'https://recepies-website.onrender.com';
 
 export async function apiGet<T>(
   path: string,
@@ -156,7 +157,7 @@ export async function apiUploadVideo(
   return res.json() as Promise<UploadVideoResponse>;
 }
 
-/** Absolute URL when `VITE_API_URL` is set (split deploy); otherwise same-origin `/static/...`. */
+/** Absolute URL for `/static/...` paths using the demo API origin. */
 export function staticUrl(path: string): string {
   const m = mediaUrl(path);
   if (!m || /^https?:\/\//i.test(m)) return m;
@@ -164,7 +165,7 @@ export function staticUrl(path: string): string {
   return b ? `${b}${m}` : m;
 }
 
-/** URL finale pour les vignettes recettes (externe inchangé, sinon `/static/...` avec base API si besoin). */
+/** Vignettes recettes (externe inchangé, sinon `/static/...` sur l’API demo). */
 export function recipeImageUrl(image: string | undefined | null): string {
   const m = mediaUrl(image);
   const path = m || '/static/img/placeholder-recipe.svg';
