@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { NewsModule } from './news/news.module';
@@ -25,6 +26,32 @@ const envFilePaths = [
   join(__dirname, '..', '.env'),
 ];
 
+/**
+ * Aiven (and some clouds) use a CA not in Node’s default store. Prefer
+ * `DB_SSL_CA_PATH` to their downloaded `ca.pem`; without it, verification is
+ * relaxed so the demo works (encryption still on).
+ */
+function mysqlSslOptions(config: ConfigService): Record<string, unknown> | undefined {
+  const host = config.get<string>('DB_HOST', DEMO_DB_HOST);
+  const sslFlag = config.get<string>('DB_SSL');
+  const useSsl =
+    sslFlag === 'true' ||
+    (sslFlag !== 'false' && host.includes('aivencloud.com'));
+  if (!useSsl) {
+    return undefined;
+  }
+  const caPath = config.get<string>('DB_SSL_CA_PATH');
+  if (caPath && existsSync(caPath)) {
+    return {
+      rejectUnauthorized: true,
+      ca: readFileSync(caPath),
+    };
+  }
+  return {
+    rejectUnauthorized: config.get<string>('DB_SSL_REJECT_UNAUTHORIZED') === 'true',
+  };
+}
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: envFilePaths }),
@@ -33,10 +60,7 @@ const envFilePaths = [
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
         const host = config.get<string>('DB_HOST', DEMO_DB_HOST);
-        const sslFlag = config.get<string>('DB_SSL');
-        const useSsl =
-          sslFlag === 'true' ||
-          (sslFlag !== 'false' && host.includes('aivencloud.com'));
+        const ssl = mysqlSslOptions(config);
 
         return {
           type: 'mysql' as const,
@@ -48,9 +72,7 @@ const envFilePaths = [
           autoLoadEntities: true,
           synchronize: false,
           logging: config.get<string>('DB_LOGGING') === 'true',
-          ...(useSsl
-            ? { ssl: { rejectUnauthorized: true } }
-            : {}),
+          ...(ssl ? { ssl } : {}),
         };
       },
     }),

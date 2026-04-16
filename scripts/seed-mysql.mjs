@@ -34,13 +34,32 @@ if (!password) {
 const sqlPath = path.join(__dirname, '..', 'db', 'seed.sql');
 const sql = fs.readFileSync(sqlPath, 'utf8');
 
+/** Aiven TLS: use DB_SSL_CA_PATH to their ca.pem for strict verify; else relaxed (fixes "self-signed certificate in certificate chain"). */
+function sslOpts() {
+  if (!useSsl) return {};
+  const caPath = process.env.DB_SSL_CA_PATH;
+  if (caPath && fs.existsSync(caPath)) {
+    return {
+      ssl: {
+        rejectUnauthorized: true,
+        ca: fs.readFileSync(caPath),
+      },
+    };
+  }
+  return {
+    ssl: {
+      rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED === 'true',
+    },
+  };
+}
+
 const conn = await mysql.createConnection({
   host,
   port,
   user,
   password,
   multipleStatements: true,
-  ...(useSsl ? { ssl: { rejectUnauthorized: true } } : {}),
+  ...sslOpts(),
 });
 
 try {
